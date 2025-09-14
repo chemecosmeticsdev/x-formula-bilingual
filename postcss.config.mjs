@@ -1,9 +1,4 @@
-/** @type {import('postcss-load-config').Config} */
-const config = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
+// Zero-Config PostCSS - No preprocessing for AWS Amplify compatibility
+export default {
+  plugins: []
 };
-
-export default config;
