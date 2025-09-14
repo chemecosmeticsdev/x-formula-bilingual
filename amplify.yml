@@ -27,12 +27,6 @@ applications:
         paths:
           - node_modules/**/*
           - .next/cache/**/*
-    appRoot: /
-backend:
-  phases:
-    build:
-      commands:
-        - echo "Backend configuration complete"
 env:
   variables:
     # Build-time variables
