@@ -13,6 +13,9 @@ interface ImageResponse {
 }
 
 export async function POST(request: NextRequest) {
+  console.log('=== IMAGE GENERATION API START ===');
+  console.log('Request received at:', new Date().toISOString());
+
   let productName: string = '';
   let tonalStyling: string = '';
   let productType: string = '';
@@ -23,7 +26,13 @@ export async function POST(request: NextRequest) {
     tonalStyling = requestData.tonalStyling;
     productType = requestData.productType;
 
+    console.log('Image generation request:');
+    console.log('- Product Name:', productName);
+    console.log('- Tonal Styling:', tonalStyling?.substring(0, 100) + '...');
+    console.log('- Product Type:', productType);
+
     if (!productName?.trim() || !tonalStyling?.trim()) {
+      console.log('ERROR: Missing required fields for image generation');
       return NextResponse.json(
         { success: false, error: 'Product name and tonal styling are required' },
         { status: 400 }
@@ -71,43 +80,72 @@ Create a stunning packaging mockup that would impress discerning customers and e
     // Concise prompt for Titan (max 512 characters)
     const concisePrompt = `Premium ${productType || 'serum'} packaging mockup: "${productName}" with ${tonalStyling} styling. Professional product photography, luxury cosmetic bottle with elegant label, clean white background, studio lighting, ${tonalStyling.includes('gold') ? 'gold accents' : 'metallic details'}, high-end aesthetic, department store quality presentation.`;
 
-    // Call AWS Bedrock Lambda endpoint for image generation
+    // Check AWS Bedrock Lambda endpoint configuration
     const lambdaImageEndpoint = process.env.LAMBDA_BEDROCK_IMAGE_ENDPOINT;
+    console.log('Environment variables check:');
+    console.log('- LAMBDA_BEDROCK_IMAGE_ENDPOINT:', lambdaImageEndpoint ? 'SET' : 'MISSING');
+    console.log('- NODE_ENV:', process.env.NODE_ENV);
 
     if (!lambdaImageEndpoint) {
-      throw new Error('Lambda Bedrock image endpoint not configured');
+      console.log('ERROR: Lambda Bedrock image endpoint not configured. Falling back to demo image.');
+
+      // Return demo image immediately with clear indication
+      const customizedImageUrl = `/api/demo-image?product=${encodeURIComponent(productName)}&style=${encodeURIComponent(tonalStyling)}&type=${encodeURIComponent(productType || 'serum')}`;
+
+      const demoResponse: ImageResponse = {
+        success: true,
+        imageUrl: customizedImageUrl
+      };
+
+      console.log('Returning demo image URL:', customizedImageUrl);
+      console.log('=== IMAGE GENERATION API DEMO FALLBACK ===');
+      return NextResponse.json(demoResponse);
     }
 
     console.log('Calling AWS Bedrock Lambda for image generation...');
+    console.log('Image endpoint URL:', lambdaImageEndpoint);
 
     // Helper function to make Lambda calls with intelligent retry logic
     const makeLambdaCall = async (model: string, maxRetries = 2) => {
       // Choose appropriate prompt based on model
       const prompt = model.includes('titan') ? concisePrompt : detailedPrompt;
+      console.log(`Making Lambda call for model: ${model}`);
+      console.log(`Prompt length: ${prompt.length} characters`);
 
       for (let attempt = 0; attempt < maxRetries; attempt++) {
         try {
+          console.log(`Attempt ${attempt + 1}/${maxRetries} for ${model}`);
+
+          const requestBody = {
+            prompt: prompt,
+            model: model,
+            width: 1024,
+            height: 1024,
+            quality: 'premium',
+            cfg_scale: 8.0,
+            seed: Math.floor(Math.random() * 1000000)
+          };
+
+          console.log('Lambda request body:', JSON.stringify(requestBody, null, 2));
+
           const response = await fetch(lambdaImageEndpoint, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              prompt: prompt,
-              model: model,
-              width: 1024,
-              height: 1024,
-              quality: 'premium',
-              cfg_scale: 8.0,
-              seed: Math.floor(Math.random() * 1000000)
-            }),
+            body: JSON.stringify(requestBody),
             signal: AbortSignal.timeout(60000) // 60 second timeout for Lambda
           });
+
+          console.log(`${model} response status:`, response.status);
+          console.log(`${model} response headers:`, Object.fromEntries(response.headers.entries()));
 
           // If we get a response, check if it's a rate limit error
           if (!response.ok) {
             const errorText = await response.text().catch(() => '');
             const isRateLimit = errorText.includes('Rate limit exceeded') || errorText.includes('rate limit');
+
+            console.log(`${model} error response:`, errorText);
 
             if (isRateLimit && attempt < maxRetries - 1) {
               // Exponential backoff for rate limit: 5s, 10s, 20s
@@ -201,11 +239,31 @@ Create a stunning packaging mockup that would impress discerning customers and e
       imageUrl: imageUrl
     };
 
-    console.log('Returning image URL:', imageUrl);
+    console.log('Successfully processed AWS Bedrock image response');
+    console.log('Final image URL:', imageUrl);
+    console.log('=== IMAGE GENERATION API SUCCESS ===');
     return NextResponse.json(result);
 
   } catch (error) {
-    console.error('AWS Bedrock Image Generation Error:', error);
+    console.error('=== IMAGE GENERATION API ERROR ===');
+    console.error('Error details:', error);
+    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+
+    // Determine error type for better logging
+    let errorType = 'Unknown';
+    if (error instanceof Error) {
+      if (error.message.includes('timeout') || error.message.includes('AbortError')) {
+        errorType = 'Timeout';
+      } else if (error.message.includes('Rate limit')) {
+        errorType = 'Rate Limit';
+      } else if (error.message.includes('fetch')) {
+        errorType = 'Network Error';
+      } else if (error.message.includes('Max retries exceeded')) {
+        errorType = 'Max Retries';
+      }
+    }
+
+    console.log('Error type identified:', errorType);
 
     // Return a customized demo image that reflects the product details
     const customizedImageUrl = `/api/demo-image?product=${encodeURIComponent(productName)}&style=${encodeURIComponent(tonalStyling)}&type=${encodeURIComponent(productType || 'serum')}`;
@@ -216,6 +274,7 @@ Create a stunning packaging mockup that would impress discerning customers and e
     };
 
     console.log('Falling back to demo image:', customizedImageUrl);
+    console.log(`=== IMAGE GENERATION API FALLBACK (${errorType}) ===`);
     return NextResponse.json(fallbackResponse);
   }
 }
