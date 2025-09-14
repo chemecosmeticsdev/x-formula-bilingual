@@ -1,0 +1,150 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "tryAgain": "Try Again",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close"
+  },
+  "navigation": {
+    "home": "Home",
+    "features": "Features",
+    "howItWorks": "How It Works",
+    "showcase": "Showcase",
+    "generateFormula": "Generate Formula",
+    "language": "Language"
+  },
+  "homepage": {
+    "title": "X FORMULA PLATFORM",
+    "version": "v2.0",
+    "hero": {
+      "title": "AI-Powered {highlight} Formulation",
+      "highlight": "Cosmetic",
+      "subtitle": "Advanced AI creates custom formulas AND product packaging designs. Get complete ready-to-sell kits in minutes, not months.",
+      "ctaPrimary": "Start Creating →",
+      "ctaSecondary": "Watch Demo"
+    },
+    "features": {
+      "title": "Why Choose X Formula Platform?",
+      "subtitle": "Transform your cosmetic business with cutting-edge AI technology",
+      "aiFormula": {
+        "title": "AI Formula Generation",
+        "description": "Generate professional cosmetic formulations using advanced AI algorithms trained on thousands of proven formulas."
+      },
+      "aiPackaging": {
+        "title": "AI Packaging Design",
+        "description": "AI-powered packaging mockups that match your product's aesthetic and target market perfectly."
+      },
+      "readyKits": {
+        "title": "Ready-to-Sell Kits",
+        "description": "Complete product packages with formulas, packaging designs, and marketing materials ready for launch."
+      },
+      "compliance": {
+        "title": "Regulatory Compliance",
+        "description": "All formulations meet international cosmetic regulations and safety standards automatically."
+      }
+    },
+    "stats": {
+      "formulas": "10,000+",
+      "formulasLabel": "Formulas Generated",
+      "successRate": "99.9%",
+      "successLabel": "Success Rate",
+      "customers": "500+",
+      "customersLabel": "Happy Customers",
+      "countries": "25+",
+      "countriesLabel": "Countries Served"
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Four simple steps to transform your vision into a complete ready-to-sell cosmetic kit",
+      "step1": {
+        "title": "Describe Your Product",
+        "description": "Tell us about your cosmetic product vision, target market, and desired effects."
+      },
+      "step2": {
+        "title": "AI Creates Formula",
+        "description": "Our AI analyzes your requirements and generates a professional formulation with detailed ingredients."
+      },
+      "step3": {
+        "title": "Design Packaging",
+        "description": "Get AI-generated packaging mockups that perfectly match your product and brand aesthetic."
+      },
+      "step4": {
+        "title": "Launch Product",
+        "description": "Download your complete product kit and start selling within hours, not months."
+      }
+    },
+    "cta": {
+      "title": "Ready to Revolutionize Your Product Development?",
+      "subtitle": "Join industry leaders using AI to create innovative cosmetic formulations",
+      "button": "Generate Your First Formula"
+    },
+    "footer": {
+      "description": "AI-powered cosmetic formulation for the next generation of beauty products.",
+      "product": {
+        "title": "Product",
+        "generator": "Formula Generator"
+      },
+      "company": {
+        "title": "Company",
+        "about": "About",
+        "contact": "Contact",
+        "support": "Support"
+      },
+      "copyright": "© 2025 X Formula Platform. All rights reserved."
+    }
+  },
+  "generate": {
+    "title": "Generate Your Formula",
+    "subtitle": "Describe your cosmetic product and let AI create the perfect formulation",
+    "form": {
+      "productDescription": {
+        "label": "Product Description",
+        "placeholder": "Describe your cosmetic product (e.g., anti-aging serum with hyaluronic acid and peptides for mature skin)"
+      },
+      "submit": "Generate Formula",
+      "generating": "Generating your formula..."
+    },
+    "errors": {
+      "required": "Product description is required",
+      "minLength": "Please provide more details about your product",
+      "failed": "Failed to generate formula. Please try again."
+    }
+  },
+  "result": {
+    "title": "Your Formula Results",
+    "subtitle": "AI-generated cosmetic formulation and packaging design",
+    "product": {
+      "name": "Product Name",
+      "description": "Description",
+      "claims": "Key Benefits",
+      "ingredients": "Ingredients",
+      "tonalStyling": "Packaging Style"
+    },
+    "packaging": {
+      "title": "Packaging Design",
+      "generating": "Generating packaging design...",
+      "failed": "Failed to generate packaging design",
+      "fallback": "Demo packaging design"
+    },
+    "actions": {
+      "generateNew": "Generate New Formula",
+      "downloadPdf": "Download PDF Report",
+      "saveFormula": "Save Formula"
+    }
+  },
+  "errors": {
+    "pageNotFound": "Page not found",
+    "serverError": "Server error",
+    "networkError": "Network error",
+    "tryAgainLater": "Please try again later"
+  }
+}

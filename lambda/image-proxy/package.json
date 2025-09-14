@@ -1,0 +1,9 @@
+{
+  "name": "bedrock-image-proxy",
+  "version": "1.0.0",
+  "description": "Proxy Lambda to forward image generation requests to us-east-1",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1691.0"
+  }
+}

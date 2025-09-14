@@ -1,0 +1,94 @@
+service: formula-platform-image-generation
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-southeast-1
+  stage: ${opt:stage, 'dev'}
+  timeout: 120  # 2 minutes timeout for image generation
+  memorySize: 1024  # Higher memory for image processing
+
+  environment:
+    BEDROCK_REGION: us-east-1
+    S3_BUCKET: ${env:S3_BUCKET, 'formula-platform-generated-images'}
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - bedrock:InvokeModel
+            - bedrock:GetModel
+          Resource:
+            - arn:aws:bedrock:${env:AWS_BEDROCK_REGION, 'us-east-1'}::foundation-model/amazon.nova-canvas-v1:0
+            - arn:aws:bedrock:${env:AWS_BEDROCK_REGION, 'us-east-1'}::foundation-model/amazon.titan-image-generator-v1
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:PutObjectAcl
+            - s3:GetObject
+          Resource:
+            - arn:aws:s3:::${env:S3_BUCKET, 'formula-platform-generated-images'}/*
+
+functions:
+  generateImage:
+    handler: src/handler.generateImageHandler
+    description: Generate product packaging images using AWS Bedrock Nova Canvas/Titan
+    timeout: 120  # 2 minutes
+    events:
+      - http:
+          path: /generate-image
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+            allowCredentials: false
+      - http:
+          path: /generate-image
+          method: options
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+            allowCredentials: false
+
+  healthCheck:
+    handler: src/handler.healthCheckHandler
+    description: Health check for image generation service
+    timeout: 30
+    events:
+      - http:
+          path: /health
+          method: get
+          cors:
+            origin: '*'
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3004
+    host: '0.0.0.0'
+    noAuth: true
+
+package:
+  exclude:
+    - test/**
+    - README.md
+    - .git/**
+    - .env.local
+  include:
+    - src/**
+    - package.json

@@ -1,0 +1,4 @@
+{
+  "httpMethod": "POST",
+  "body": "{\"prompt\": \"Generate a premium cosmetic serum bottle with frosted glass and gold metallic accents, professional product photography\", \"model\": \"amazon.nova-canvas-v1:0\", \"width\": 1024, \"height\": 1024}"
+}
