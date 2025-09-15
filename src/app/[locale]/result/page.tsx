@@ -260,22 +260,14 @@ export default function ResultPage() {
           <div className="grid lg:grid-cols-2 gap-12 mb-12">
             {/* Left Column - Product Visual */}
             <div className="flex flex-col items-center">
-              {/* Product Packaging Mockup */}
-              <div className="mb-6">
-                <div className="text-center mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {t('result.packaging.title')}
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    {t('result.aiGeneratedMockup', { fallback: 'AI-Generated Mockup' })}
-                  </p>
-                </div>
-                <div className="w-full max-w-sm h-80 rounded-xl overflow-hidden shadow-xl border-2 border-gray-100 bg-gradient-to-br from-white to-gray-50 relative">
+              {/* Product Logo Circle - as shown in screenshots */}
+              <div className="mb-8">
+                <div className="w-64 h-64 bg-white border-4 border-gray-200 rounded-full flex items-center justify-center shadow-lg relative">
                   {result.imageUrl && !imageError ? (
                     <img
                       src={result.imageUrl}
                       alt={`${result.product.name} packaging mockup`}
-                      className={`w-full h-full object-cover hover:scale-105 transition-transform duration-300 ${imageLoaded ? 'block' : 'hidden'}`}
+                      className={`w-full h-full object-cover rounded-full hover:scale-105 transition-transform duration-300 ${imageLoaded ? 'block' : 'hidden'}`}
                       onLoad={() => {
                         console.log('Image loaded successfully:', result.imageUrl);
                         setImageLoaded(true);
@@ -287,51 +279,34 @@ export default function ResultPage() {
                     />
                   ) : null}
 
-                  {/* Fallback content - show when no image URL, image hasn't loaded, or image failed */}
-                  <div className={`w-full h-full flex items-center justify-center bg-white absolute inset-0 ${imageLoaded && !imageError ? 'hidden' : 'block'}`}>
+                  {/* Fallback content - show logo initials */}
+                  <div className={`w-full h-full flex items-center justify-center bg-white rounded-full absolute inset-0 ${imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
                     <div className="text-center">
-                      <div className="text-5xl font-bold text-blue-600 mb-3">
+                      <div className="text-6xl font-bold text-blue-600 mb-2">
                         {result.product.name.split(' ').map(word => word[0]).join('').substring(0, 2)}
-                      </div>
-                      <div className="text-sm text-gray-600 font-medium px-6 max-w-48 leading-tight">
-                        {result.product.name}
                       </div>
                     </div>
                   </div>
                 </div>
+                <p className="text-center text-gray-600 font-medium mt-4">
+                  {result.product.name}
+                </p>
               </div>
-
-              {/* Tonal Styling */}
-              <Card className="w-full">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-3">
-                    <div className="text-2xl">🎨</div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2">
-                        {t('result.product.tonalStyling')}:
-                      </h3>
-                      <p className="text-gray-600 text-sm leading-relaxed">
-                        {result.product.tonalStyling}
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
 
             {/* Right Column - Details */}
             <div className="space-y-8">
               {/* Key Claims */}
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                  {t('result.product.claims')}
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  Key Claims
                 </h2>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {result.product.claims.map((claim, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <Badge className="bg-green-100 text-green-800 border-green-200 mt-1 flex-shrink-0">
-                        ✓
-                      </Badge>
+                    <div key={index} className="flex items-center gap-3">
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white text-sm">✓</span>
+                      </div>
                       <span className="text-gray-700">{claim}</span>
                     </div>
                   ))}
@@ -340,14 +315,14 @@ export default function ResultPage() {
 
               {/* Key Ingredients */}
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                  {t('result.product.ingredients')}
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  Key Ingredients
                 </h2>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {result.product.ingredients.map((ingredient, index) => (
-                    <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                      <span className="font-medium text-gray-900 flex-1">{ingredient.name}</span>
-                      <span className="font-bold text-gray-700 ml-4">{ingredient.percentage}</span>
+                    <div key={index} className="flex justify-between items-center py-3 border-b border-gray-200 last:border-b-0">
+                      <span className="font-medium text-gray-900">{ingredient.name}</span>
+                      <span className="font-bold text-gray-700">{ingredient.percentage}</span>
                     </div>
                   ))}
                 </div>
@@ -355,29 +330,42 @@ export default function ResultPage() {
             </div>
           </div>
 
+          {/* Tonal Styling Section */}
+          <div className="mb-12 bg-gray-50 rounded-lg p-6">
+            <div className="flex items-start gap-3">
+              <div className="text-2xl">🎨</div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  Tonal Styling:
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {result.product.tonalStyling}
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button className="bg-blue-600 hover:bg-blue-700 px-8 py-3 text-lg">
-              {t('result.requestFullFormula', { fallback: 'Request Full Formula' })}
+            <Button className="bg-blue-600 hover:bg-blue-700 px-8 py-3 text-lg rounded-lg">
+              Request Full Formula
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700 px-8 py-3 text-lg">
-              {t('result.orderPrototype', { fallback: 'Order Prototype' })}
+            <Button className="bg-blue-600 hover:bg-blue-700 px-8 py-3 text-lg rounded-lg">
+              Order Prototype
             </Button>
           </div>
 
           <div className="text-center mt-6">
             <Button variant="ghost" className="text-gray-600 hover:text-gray-800">
-              🤍 {t('result.addToWishlist', { fallback: 'Add to Wishlist' })}
+              ♡ Add to Wishlist
             </Button>
           </div>
 
           {/* Generate Another */}
           <div className="text-center mt-12 pt-8 border-t border-gray-200">
-            <Link href={`/${locale}/generate`}>
-              <Button variant="outline" className="px-8 py-3 text-lg">
-                {t('result.actions.generateNew')}
-              </Button>
-            </Link>
+            <Button variant="outline" className="px-8 py-3 text-lg">
+              Generate Another Formula
+            </Button>
           </div>
         </div>
       </div>

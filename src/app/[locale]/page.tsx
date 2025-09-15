@@ -19,186 +19,279 @@ export default function Homepage({ params, searchParams }: Props) {
   const t = useTranslations();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">
+      <header className="w-full bg-white border-b">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center">
               <h1 className="text-2xl font-bold text-gray-900">
                 {t('homepage.title', { fallback: 'X FORMULA PLATFORM' })}
               </h1>
-              <Badge variant="secondary">
-                {t('homepage.version', { fallback: 'v2.0' })}
-              </Badge>
             </div>
-            <nav className="hidden md:flex items-center space-x-6">
-              <a href="#features" className="text-gray-600 hover:text-teal-600 transition-colors">
+            <nav className="hidden md:flex items-center space-x-8">
+              <a href="#features" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
                 {t('navigation.features', { fallback: 'Features' })}
               </a>
-              <a href="#how-it-works" className="text-gray-600 hover:text-teal-600 transition-colors">
+              <a href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
                 {t('navigation.howItWorks', { fallback: 'How It Works' })}
               </a>
-              <a href="#showcase" className="text-gray-600 hover:text-teal-600 transition-colors">
-                {t('navigation.showcase', { fallback: 'Showcase' })}
+              <a href="#testimonials" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                {t('navigation.about', { fallback: 'About' })}
               </a>
               <LanguageSwitcher />
-              <Link href={`/${locale}/generate`}>
-                <Button className="bg-teal-600 hover:bg-teal-700">
-                  {t('navigation.generateFormula', { fallback: 'Generate Formula' })}
-                </Button>
-              </Link>
             </nav>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 px-6">
+      <section className="bg-gradient-to-b from-blue-50 to-white py-24 px-6">
         <div className="container mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            {t('homepage.hero.title', { fallback: 'AI-Powered {highlight} Formulation', highlight: t('homepage.hero.highlight', { fallback: 'Cosmetic' }) })}
+          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+            CREATE FORMULA IDEAS<br />
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              WITH AI
+            </span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            {t('homepage.hero.subtitle', { fallback: 'Advanced AI creates custom formulas AND product packaging designs. Get complete ready-to-sell kits in minutes, not months.' })}
+          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+            Get concepts, claims, and more. Powered by Chemecosmetics
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="mb-16">
             <Link href={`/${locale}/generate`}>
-              <Button size="lg" className="bg-teal-600 hover:bg-teal-700 text-lg px-8 py-3">
-                {t('homepage.hero.ctaPrimary', { fallback: 'Start Creating →' })}
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-12 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                GENERATE FORMULA
+                <span className="ml-2">→</span>
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-3">
-              {t('homepage.hero.ctaSecondary', { fallback: 'Watch Demo' })}
-            </Button>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gray-50">
+      <section id="features" className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              {t('homepage.features.title', { fallback: 'Why Choose X Formula Platform?' })}
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              {t('homepage.features.subtitle', { fallback: 'Transform your cosmetic business with cutting-edge AI technology' })}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-teal-600 text-2xl">🧪</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center group hover:transform hover:scale-105 transition-all duration-300">
+              <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-2xl">🧪</span>
                 </div>
-                <CardTitle>{t('homepage.features.aiFormula.title', { fallback: 'AI Formula Generation' })}</CardTitle>
-                <CardDescription>
-                  {t('homepage.features.aiFormula.description', { fallback: 'Generate professional cosmetic formulations using advanced AI algorithms trained on thousands of proven formulas.' })}
-                </CardDescription>
-              </CardHeader>
-            </Card>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">AI Formula Generation</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Advanced AI creates custom formulas based on your specifications
+              </p>
+            </div>
 
-            <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-teal-600 text-2xl">🎨</span>
+            <div className="text-center group hover:transform hover:scale-105 transition-all duration-300">
+              <div className="w-20 h-20 mx-auto mb-6 bg-purple-100 rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-2xl">📊</span>
                 </div>
-                <CardTitle>{t('homepage.features.aiPackaging.title', { fallback: 'AI Packaging Design' })}</CardTitle>
-                <CardDescription>
-                  {t('homepage.features.aiPackaging.description', { fallback: 'AI-powered packaging mockups that match your product\'s aesthetic and target market perfectly.' })}
-                </CardDescription>
-              </CardHeader>
-            </Card>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Trend Analysis</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Stay ahead with market trend analysis and consumer insights
+              </p>
+            </div>
 
-            <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-teal-600 text-2xl">⚡</span>
+            <div className="text-center group hover:transform hover:scale-105 transition-all duration-300">
+              <div className="w-20 h-20 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-2xl">📦</span>
                 </div>
-                <CardTitle>{t('homepage.features.readyKits.title', { fallback: 'Rapid Prototyping' })}</CardTitle>
-                <CardDescription>
-                  {t('homepage.features.readyKits.description', { fallback: 'Generate multiple formula variations instantly and iterate quickly to find the perfect solution' })}
-                </CardDescription>
-              </CardHeader>
-            </Card>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Ready-to-Sell Kits</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Complete formulation packages ready for market launch
+              </p>
+            </div>
 
-            <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-teal-600 text-2xl">📦</span>
+            <div className="text-center group hover:transform hover:scale-105 transition-all duration-300">
+              <div className="w-20 h-20 mx-auto mb-6 bg-orange-100 rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-2xl">🏭</span>
                 </div>
-                <CardTitle>{t('homepage.features.compliance.title', { fallback: 'Ready-to-Sell Kits' })}</CardTitle>
-                <CardDescription>
-                  {t('homepage.features.compliance.description', { fallback: 'Complete formulation packages with ingredients, claims, regulatory guidance, and packaging design ready for market launch' })}
-                </CardDescription>
-              </CardHeader>
-            </Card>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">OEM/ODM Service</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Full manufacturing support from concept to market
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-20">
+      <section id="how-it-works" className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              {t('homepage.howItWorks.title', { fallback: 'How It Works' })}
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              {t('homepage.howItWorks.subtitle', { fallback: 'Three simple steps to transform your vision into a complete ready-to-sell cosmetic kit' })}
-            </p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">HOW IT WORKS</h2>
+            <p className="text-gray-600 text-lg">Simple steps to your perfect formula</p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-teal-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                1
+          <div className="grid md:grid-cols-3 gap-12">
+            <div className="flex items-start space-x-6">
+              <div className="flex-shrink-0">
+                <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+                  01
+                </div>
               </div>
-              <h3 className="text-xl font-semibold mb-4">
-                {t('homepage.howItWorks.step1.title', { fallback: 'Describe Your Product' })}
-              </h3>
-              <p className="text-gray-600">
-                {t('homepage.howItWorks.step1.description', { fallback: 'Tell us about your cosmetic product vision, target market, and desired effects.' })}
-              </p>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Specify product goals</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Tell us your product vision, target market, and key requirements
+                </p>
+              </div>
             </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-teal-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                2
+            <div className="flex items-start space-x-6">
+              <div className="flex-shrink-0">
+                <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+                  02
+                </div>
               </div>
-              <h3 className="text-xl font-semibold mb-4">
-                {t('homepage.howItWorks.step2.title', { fallback: 'AI Creates Formula' })}
-              </h3>
-              <p className="text-gray-600">
-                {t('homepage.howItWorks.step2.description', { fallback: 'Our AI analyzes your requirements and generates a professional formulation with detailed ingredients.' })}
-              </p>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Get a concept and formula</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  AI generates a complete concept with ingredients and claims
+                </p>
+              </div>
             </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-teal-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                3
+            <div className="flex items-start space-x-6">
+              <div className="flex-shrink-0">
+                <div className="w-20 h-20 bg-green-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+                  03
+                </div>
               </div>
-              <h3 className="text-xl font-semibold mb-4">
-                {t('homepage.howItWorks.step3.title', { fallback: 'Design Packaging' })}
-              </h3>
-              <p className="text-gray-600">
-                {t('homepage.howItWorks.step3.description', { fallback: 'Get AI-generated packaging mockups that perfectly match your product and brand aesthetic.' })}
-              </p>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Pay and receive samples</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Order prototypes and receive professional samples
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Formula Showcase Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">FORMULA SHOWCASE</h2>
+            <p className="text-gray-600 text-lg">See what our AI can create for you</p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center">
+              <div className="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center">
+                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg">
+                  <span className="text-3xl font-bold text-blue-600">AI</span>
+                </div>
+              </div>
+              <p className="text-gray-600 font-medium">AI-Generated Formula Visualization</p>
             </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-teal-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                4
+            <div className="space-y-6">
+              <div className="flex items-start space-x-4">
+                <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                  01
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    Advanced Anti-Aging Serum with proven results in clinical studies
+                  </h3>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold mb-4">
-                {t('homepage.howItWorks.step4.title', { fallback: 'Launch Product' })}
-              </h3>
-              <p className="text-gray-600">
-                {t('homepage.howItWorks.step4.description', { fallback: 'Download your complete product kit and start selling within hours, not months.' })}
-              </p>
+
+              <div className="flex items-start space-x-4">
+                <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                  02
+                </div>
+                <div>
+                  <p className="text-gray-600 leading-relaxed">
+                    Get a detailed eco-formula with sustainably sourced ingredients and biodegradable packaging options
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4">
+                <div className="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                  03
+                </div>
+                <div>
+                  <p className="text-gray-600 leading-relaxed">
+                    Pay and receive samples with complete documentation and regulatory compliance
+                  </p>
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-20 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">CUSTOMER TESTIMONIALS</h2>
+            <p className="text-gray-600 text-lg">What our clients say about us</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="bg-white p-6 shadow-lg border-none">
+              <CardContent className="p-0">
+                <div className="flex justify-center mb-4">
+                  <div className="flex text-yellow-400">
+                    {'★'.repeat(5)}
+                  </div>
+                </div>
+                <p className="text-gray-600 italic mb-6 text-center leading-relaxed">
+                  "The AI-generated formulas saved us months of R&D time. Incredible accuracy and market relevance."
+                </p>
+                <div className="text-center">
+                  <p className="font-semibold text-gray-900">Sarah Chen</p>
+                  <p className="text-gray-500 text-sm">Beauty Innovations Co.</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white p-6 shadow-lg border-none">
+              <CardContent className="p-0">
+                <div className="flex justify-center mb-4">
+                  <div className="flex text-yellow-400">
+                    {'★'.repeat(5)}
+                  </div>
+                </div>
+                <p className="text-gray-600 italic mb-6 text-center leading-relaxed">
+                  "Outstanding ingredient recommendations that perfectly matched our sustainability goals."
+                </p>
+                <div className="text-center">
+                  <p className="font-semibold text-gray-900">Marcus Rodriguez</p>
+                  <p className="text-gray-500 text-sm">Natural Cosmetics Ltd.</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white p-6 shadow-lg border-none">
+              <CardContent className="p-0">
+                <div className="flex justify-center mb-4">
+                  <div className="flex text-yellow-400">
+                    {'★'.repeat(5)}
+                  </div>
+                </div>
+                <p className="text-gray-600 italic mb-6 text-center leading-relaxed">
+                  "The scientific approach and detailed analysis exceeded our expectations completely."
+                </p>
+                <div className="text-center">
+                  <p className="font-semibold text-gray-900">Dr. Emily Watson</p>
+                  <p className="text-gray-500 text-sm">SkinCare Research Institute</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -223,48 +316,20 @@ export default function Homepage({ params, searchParams }: Props) {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">X Formula Platform</h3>
-              <p className="text-gray-400">
-                {t('homepage.footer.description', { fallback: 'AI-powered cosmetic formulation for the next generation of beauty products.' })}
+              <h3 className="text-xl font-bold mb-4">X FORMULA PLATFORM</h3>
+              <p className="text-gray-400 mb-4">
+                Powered by Chemecosmetics
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">
-                {t('homepage.footer.product.title', { fallback: 'Product' })}
-              </h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link href={`/${locale}/generate`} className="hover:text-white transition-colors">
-                  {t('homepage.footer.product.generator', { fallback: 'Formula Generator' })}
-                </Link></li>
-                <li><a href="#features" className="hover:text-white transition-colors">
-                  {t('navigation.features', { fallback: 'Features' })}
-                </a></li>
-                <li><a href="#how-it-works" className="hover:text-white transition-colors">
-                  {t('navigation.howItWorks', { fallback: 'How It Works' })}
-                </a></li>
-              </ul>
+              <div className="flex flex-wrap gap-6 text-gray-400">
+                <a href="#" className="hover:text-white transition-colors">Contact</a>
+                <a href="#" className="hover:text-white transition-colors">Support</a>
+                <a href="#" className="hover:text-white transition-colors">Documentation</a>
+              </div>
             </div>
-            <div>
-              <h4 className="font-semibold mb-4">
-                {t('homepage.footer.company.title', { fallback: 'Company' })}
-              </h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">
-                  {t('homepage.footer.company.about', { fallback: 'About' })}
-                </a></li>
-                <li><a href="#" className="hover:text-white transition-colors">
-                  {t('homepage.footer.company.contact', { fallback: 'Contact' })}
-                </a></li>
-                <li><a href="#" className="hover:text-white transition-colors">
-                  {t('homepage.footer.company.support', { fallback: 'Support' })}
-                </a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>{t('homepage.footer.copyright', { fallback: '© 2025 X Formula Platform. All rights reserved.' })}</p>
           </div>
         </div>
       </footer>
