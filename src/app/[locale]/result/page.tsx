@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from 'next-intl';
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 // Card components removed as we're using custom styling
 import { Badge } from "@/components/ui/badge";
@@ -260,14 +261,16 @@ export default function ResultPage() {
           <div className="grid md:grid-cols-2 gap-12 mb-12">
             {/* Left Column - Product Visual */}
             <div className="flex flex-col items-center justify-center">
-              {/* Product Image Circle - AI generated or fallback to initials */}
+              {/* Product Image Placeholder - rectangular to fit image properly, not circular */}
               <div className="relative mb-6">
-                <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center shadow-sm relative overflow-hidden">
+                <div className="w-64 h-64 bg-gray-100 rounded-2xl flex items-center justify-center shadow-md relative overflow-hidden border-4 border-gray-200">
                   {result.imageUrl && !imageError ? (
-                    <img
+                    <Image
                       src={result.imageUrl}
                       alt={`${result.product.name} packaging mockup`}
-                      className={`w-full h-full object-cover rounded-full hover:scale-105 transition-transform duration-300 ${imageLoaded ? 'block' : 'hidden'}`}
+                      width={256}
+                      height={256}
+                      className={`w-full h-full object-contain hover:scale-105 transition-transform duration-300 ${imageLoaded ? 'block' : 'hidden'}`}
                       onLoad={() => {
                         console.log('Image loaded successfully:', result.imageUrl);
                         setImageLoaded(true);
@@ -280,16 +283,17 @@ export default function ResultPage() {
                   ) : null}
 
                   {/* Fallback content - show logo initials when no image */}
-                  <div className={`w-full h-full flex items-center justify-center bg-gray-100 rounded-full absolute inset-0 ${imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
+                  <div className={`w-full h-full flex items-center justify-center bg-gray-100 absolute inset-0 ${imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-blue-600">
+                      <div className="text-4xl font-bold text-blue-600 mb-2">
                         {result.product.name.split(' ').map(word => word[0]).join('').substring(0, 2)}
                       </div>
+                      <div className="text-sm text-gray-500">Product Mockup</div>
                     </div>
                   </div>
                 </div>
               </div>
-              <p className="text-center text-gray-600 font-medium text-lg">
+              <p className="text-center text-gray-600 font-medium text-lg max-w-xs">
                 {result.product.name}
               </p>
             </div>
@@ -347,17 +351,17 @@ export default function ResultPage() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 text-base rounded-md font-medium min-w-[180px]">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-base rounded-lg font-semibold min-w-[200px] shadow-md hover:shadow-lg transition-all duration-200">
               Request Full Formula
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 text-base rounded-md font-medium min-w-[180px]">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-base rounded-lg font-semibold min-w-[200px] shadow-md hover:shadow-lg transition-all duration-200">
               Order Prototype
             </Button>
           </div>
 
           <div className="text-center mb-12">
-            <Button variant="ghost" className="text-gray-600 hover:text-gray-800 flex items-center gap-2">
-              <span>♡</span>
+            <Button variant="ghost" className="text-gray-600 hover:text-teal-600 flex items-center gap-2 px-6 py-2 rounded-lg transition-colors duration-200">
+              <span className="text-lg">♡</span>
               <span>Add to Wishlist</span>
             </Button>
           </div>
@@ -365,7 +369,7 @@ export default function ResultPage() {
           {/* Generate Another */}
           <div className="text-center pt-8 border-t border-gray-200">
             <Link href={`/${locale}/generate`}>
-              <Button variant="outline" className="px-8 py-2 text-base border border-gray-300 hover:border-gray-400 rounded-md">
+              <Button variant="outline" className="px-8 py-3 text-base border-2 border-gray-300 hover:border-teal-500 hover:text-teal-600 rounded-lg font-medium transition-all duration-200">
                 Generate Another Formula
               </Button>
             </Link>

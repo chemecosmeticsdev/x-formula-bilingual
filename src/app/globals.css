@@ -1093,6 +1093,69 @@ input:focus, textarea:focus, select:focus {
   content: "♥";
 }
 
+/* Additional sizing classes for improved layouts */
+.w-64 {
+  width: 16rem;
+}
+
+.h-64 {
+  height: 16rem;
+}
+
+.min-w-\\[200px\\] {
+  min-width: 200px;
+}
+
+.min-w-\\[240px\\] {
+  min-width: 240px;
+}
+
+.max-w-xs {
+  max-width: 20rem;
+}
+
+.max-w-3xl {
+  max-width: 48rem;
+}
+
+/* Transform utilities */
+.-translate-y-1 {
+  transform: translateY(-0.25rem);
+}
+
+/* Focus ring utilities */
+.focus\\:ring-2:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.focus\\:ring-blue-100:focus {
+  box-shadow: 0 0 0 2px rgba(219, 234, 254, 0.5);
+}
+
+/* Disabled state */
+.disabled\\:bg-gray-400:disabled {
+  background-color: #9ca3af;
+}
+
+/* Border width variants */
+.border-2 {
+  border-width: 2px;
+}
+
+/* Resize utilities */
+.resize-none {
+  resize: none;
+}
+
+/* Hover border colors */
+.hover\\:border-teal-500:hover {
+  border-color: #14b8a6;
+}
+
+.hover\\:border-gray-200:hover {
+  border-color: #e5e7eb;
+}
+
 /* Responsive Design */
 @media (min-width: 640px) {
   .sm\\:flex-row {

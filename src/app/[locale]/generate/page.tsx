@@ -88,23 +88,23 @@ export default function GeneratePage() {
       <main className="container mx-auto px-6 py-12">
         <div className="max-w-2xl mx-auto">
           {/* Hero Icon and Heading */}
-          <div className="text-center mb-12">
-            <div className="w-16 h-16 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center">
-              <span className="text-blue-600 text-2xl">🧪</span>
+          <div className="text-center mb-16">
+            <div className="w-20 h-20 mx-auto mb-8 bg-blue-100 rounded-2xl flex items-center justify-center shadow-md">
+              <span className="text-blue-600 text-3xl">🧪</span>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
               Describe Your Product Vision
             </h1>
-            <p className="text-gray-600 text-lg">
+            <p className="text-gray-600 text-xl max-w-3xl mx-auto leading-relaxed">
               Tell us about your product goals, target market, key requirements, and any specific claims you want to make. The more detailed you are, the better our AI can help you.
             </p>
           </div>
 
           {/* Simple Form */}
-          <div className="mb-12">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="mb-16">
+            <form onSubmit={handleSubmit} className="space-y-8">
               <div>
-                <Label htmlFor="productSpec" className="text-gray-900 font-medium mb-2 block">
+                <Label htmlFor="productSpec" className="text-gray-900 font-semibold text-lg mb-4 block">
                   Product Specification
                 </Label>
                 <Textarea
@@ -112,10 +112,10 @@ export default function GeneratePage() {
                   placeholder="A lightweight, hydrating daily moisturizer for sensitive skin with SPF 30 and anti-pollution claims. Target demographic: Bangkok residents aged 25-35. Key requirements: fragrance-free, reef-safe sunscreen, suitable for all skin tones."
                   value={productSpec}
                   onChange={(e) => setProductSpec(e.target.value)}
-                  rows={6}
-                  className="w-full p-4 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  rows={8}
+                  className="w-full p-6 border-2 border-gray-200 rounded-xl text-base leading-relaxed focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-200 resize-none shadow-sm"
                 />
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="text-gray-500 mt-4 text-base leading-relaxed">
                   Include details about target audience, skin type, desired benefits, key ingredients, packaging preferences, and any regulatory requirements.
                 </p>
               </div>
@@ -124,16 +124,16 @@ export default function GeneratePage() {
                 <Button
                   type="submit"
                   disabled={!productSpec.trim() || isLoading}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium flex items-center gap-2"
+                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-12 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 shadow-lg hover:shadow-xl transition-all duration-200 min-w-[240px]"
                 >
                   {isLoading ? (
                     <>
-                      <span className="animate-spin">⟳</span>
+                      <span className="animate-spin text-xl">⟳</span>
                       <span>Generating...</span>
                     </>
                   ) : (
                     <>
-                      <span>🧪</span>
+                      <span className="text-xl">🧪</span>
                       <span>Generate Formula</span>
                     </>
                   )}
@@ -143,20 +143,25 @@ export default function GeneratePage() {
           </div>
 
           {/* Example Specifications */}
-          <div className="border-t border-gray-200 pt-12">
-            <h3 className="text-xl font-bold text-gray-900 mb-8 text-center">
+          <div className="border-t border-gray-200 pt-16">
+            <h3 className="text-2xl font-bold text-gray-900 mb-12 text-center">
               Example Specifications
             </h3>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-8">
               {exampleSpecs.map((example, index) => (
                 <div
                   key={index}
-                  className="border border-gray-200 rounded-lg p-6 cursor-pointer hover:border-blue-300 hover:shadow-sm transition-all"
+                  className="border-2 border-gray-200 rounded-xl p-8 cursor-pointer hover:border-blue-300 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 bg-white"
                   onClick={() => setProductSpec(example.description)}
                 >
-                  <h4 className="font-semibold text-gray-900 mb-2">{example.title}</h4>
-                  <p className="text-sm text-gray-600 leading-relaxed italic">
+                  <div className="mb-4">
+                    <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-sm font-medium rounded-lg">
+                      {example.category}
+                    </span>
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-4 text-lg">{example.title}</h4>
+                  <p className="text-gray-600 leading-relaxed italic">
                     &ldquo;{example.description}&rdquo;
                   </p>
                 </div>

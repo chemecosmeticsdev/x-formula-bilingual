@@ -51,7 +51,7 @@ export default function Homepage(_props: Props) {
         <div className="container mx-auto text-center">
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
             CREATE FORMULA IDEAS<br />
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-blue-600">
               WITH AI
             </span>
           </h1>
@@ -60,9 +60,9 @@ export default function Homepage(_props: Props) {
           </p>
           <div className="mb-16">
             <Link href={`/${locale}/generate`}>
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-12 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-12 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
                 GENERATE FORMULA
-                <span className="ml-2">→</span>
+                <span className="ml-3 text-xl">→</span>
               </Button>
             </Link>
           </div>
@@ -307,7 +307,7 @@ export default function Homepage(_props: Props) {
             {t('homepage.cta.subtitle', { fallback: 'Join industry leaders using AI to create innovative cosmetic formulations' })}
           </p>
           <Link href={`/${locale}/generate`}>
-            <Button size="lg" variant="secondary" className="text-lg px-8 py-3">
+            <Button size="lg" className="bg-white hover:bg-gray-50 text-teal-600 border-2 border-white hover:border-gray-200 text-lg px-8 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-200">
               {t('homepage.cta.button', { fallback: 'Generate Your First Formula' })}
             </Button>
           </Link>
