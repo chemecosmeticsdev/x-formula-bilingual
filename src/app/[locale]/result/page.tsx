@@ -260,31 +260,12 @@ export default function ResultPage() {
           <div className="grid lg:grid-cols-2 gap-12 mb-12">
             {/* Left Column - Product Visual */}
             <div className="flex flex-col items-center justify-center">
-              {/* Product Image or Logo Circle */}
+              {/* Logo Circle - Prioritize initials like target mockup */}
               <div className="relative mb-6">
-                <div className="w-48 h-48 bg-white border-4 border-gray-300 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden">
-                  {result.imageUrl && !imageError ? (
-                    <img
-                      src={result.imageUrl}
-                      alt={`${result.product.name} packaging mockup`}
-                      className={`w-full h-full object-cover rounded-full hover:scale-105 transition-transform duration-300 ${imageLoaded ? 'block' : 'hidden'}`}
-                      onLoad={() => {
-                        console.log('Image loaded successfully:', result.imageUrl);
-                        setImageLoaded(true);
-                      }}
-                      onError={() => {
-                        console.log('Image failed to load:', result.imageUrl);
-                        setImageError(true);
-                      }}
-                    />
-                  ) : null}
-
-                  {/* Fallback content - show logo initials */}
-                  <div className={`w-full h-full flex items-center justify-center bg-white rounded-full absolute inset-0 ${imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
-                    <div className="text-center">
-                      <div className="text-6xl font-bold text-blue-600 mb-1">
-                        {result.product.name.split(' ').map(word => word[0]).join('').substring(0, 2)}
-                      </div>
+                <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center shadow-sm">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-blue-600">
+                      {result.product.name.split(' ').map(word => word[0]).join('').substring(0, 2)}
                     </div>
                   </div>
                 </div>
