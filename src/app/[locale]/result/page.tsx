@@ -257,7 +257,7 @@ export default function ResultPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12 mb-12">
             {/* Left Column - Product Visual */}
             <div className="flex flex-col items-center justify-center">
               {/* Product Image Circle - AI generated or fallback to initials */}
