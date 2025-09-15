@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 type Props = {
@@ -13,7 +12,7 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export default function Homepage({ params, searchParams }: Props) {
+export default function Homepage(_props: Props) {
   const routerParams = useParams();
   const locale = routerParams.locale as string;
   const t = useTranslations();
@@ -29,16 +28,18 @@ export default function Homepage({ params, searchParams }: Props) {
                 {t('homepage.title', { fallback: 'X FORMULA PLATFORM' })}
               </h1>
             </div>
-            <nav className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                {t('navigation.features', { fallback: 'Features' })}
-              </a>
-              <a href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                {t('navigation.howItWorks', { fallback: 'How It Works' })}
-              </a>
-              <a href="#testimonials" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                {t('navigation.about', { fallback: 'About' })}
-              </a>
+            <nav className="flex items-center space-x-8">
+              <div className="hidden md:flex items-center space-x-8">
+                <a href="#features" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  {t('navigation.features', { fallback: 'Features' })}
+                </a>
+                <a href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  {t('navigation.howItWorks', { fallback: 'How It Works' })}
+                </a>
+                <a href="#testimonials" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  {t('navigation.about', { fallback: 'About' })}
+                </a>
+              </div>
               <LanguageSwitcher />
             </nav>
           </div>
@@ -250,7 +251,7 @@ export default function Homepage({ params, searchParams }: Props) {
                   </div>
                 </div>
                 <p className="text-gray-600 italic mb-6 text-center leading-relaxed">
-                  "The AI-generated formulas saved us months of R&D time. Incredible accuracy and market relevance."
+                  &ldquo;The AI-generated formulas saved us months of R&amp;D time. Incredible accuracy and market relevance.&rdquo;
                 </p>
                 <div className="text-center">
                   <p className="font-semibold text-gray-900">Sarah Chen</p>
@@ -267,7 +268,7 @@ export default function Homepage({ params, searchParams }: Props) {
                   </div>
                 </div>
                 <p className="text-gray-600 italic mb-6 text-center leading-relaxed">
-                  "Outstanding ingredient recommendations that perfectly matched our sustainability goals."
+                  &ldquo;Outstanding ingredient recommendations that perfectly matched our sustainability goals.&rdquo;
                 </p>
                 <div className="text-center">
                   <p className="font-semibold text-gray-900">Marcus Rodriguez</p>
@@ -284,7 +285,7 @@ export default function Homepage({ params, searchParams }: Props) {
                   </div>
                 </div>
                 <p className="text-gray-600 italic mb-6 text-center leading-relaxed">
-                  "The scientific approach and detailed analysis exceeded our expectations completely."
+                  &ldquo;The scientific approach and detailed analysis exceeded our expectations completely.&rdquo;
                 </p>
                 <div className="text-center">
                   <p className="font-semibold text-gray-900">Dr. Emily Watson</p>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -18,7 +18,11 @@ export default function GeneratePage() {
   const t = useTranslations();
   const [productSpec, setProductSpec] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<{
+    message: string;
+    productSpec: string;
+    status: string;
+  } | null>(null);
 
   const exampleSpecs = [
     {
@@ -78,102 +82,113 @@ export default function GeneratePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">
+      <header className="w-full bg-white border-b">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center">
               <Link href={`/${locale}`}>
-                <h1 className="text-2xl font-bold text-gray-900 hover:text-teal-600 transition-colors cursor-pointer">
-                  {t('homepage.title')}
+                <h1 className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors cursor-pointer">
+                  {t('homepage.title', { fallback: 'X FORMULA PLATFORM' })}
                 </h1>
               </Link>
-              <Badge variant="secondary">{t('homepage.version')}</Badge>
+              <span className="ml-2 text-sm text-gray-500">v2.0</span>
             </div>
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link href={`/${locale}#features`} className="text-gray-600 hover:text-teal-600 transition-colors">
-                {t('navigation.features')}
-              </Link>
-              <Link href={`/${locale}#how-it-works`} className="text-gray-600 hover:text-teal-600 transition-colors">
-                {t('navigation.howItWorks')}
-              </Link>
-              <Link href={`/${locale}`} className="text-gray-600 hover:text-teal-600 transition-colors">
-                {t('navigation.home')}
-              </Link>
+            <nav className="flex items-center space-x-8">
+              <div className="hidden md:flex items-center space-x-8">
+                <Link href={`/${locale}#features`} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  {t('navigation.features', { fallback: 'Features' })}
+                </Link>
+                <Link href={`/${locale}#how-it-works`} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  {t('navigation.howItWorks', { fallback: 'How It Works' })}
+                </Link>
+                <Link href={`/${locale}#testimonials`} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  {t('navigation.about', { fallback: 'About' })}
+                </Link>
+              </div>
               <LanguageSwitcher />
             </nav>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto">
-          {/* Page Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              {t('generate.title')}
-            </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              {t('generate.subtitle')}
-            </p>
-          </div>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-b from-blue-50 to-white py-20 px-6">
+        <div className="container mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            {t('generate.title', { fallback: 'Generate Your Formula' })}
+          </h1>
+          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+            {t('generate.subtitle', { fallback: 'Describe your cosmetic product and let AI create the perfect formulation' })}
+          </p>
+        </div>
+      </section>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+      {/* Main Content */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+
+          <div className="grid lg:grid-cols-3 gap-12">
             {/* Main Form */}
             <div className="lg:col-span-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle>{t('generate.form.productDescription.label')}</CardTitle>
-                  <CardDescription>
+              <div className="bg-white rounded-2xl shadow-xl p-8 border">
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                    {t('generate.form.productDescription.label', { fallback: 'Product Description' })}
+                  </h2>
+                  <p className="text-gray-600 leading-relaxed">
                     {t('generate.form.description', {
                       fallback: 'Provide detailed information about your desired cosmetic product. Be specific about target audience, key benefits, preferred ingredients, and packaging preferences.'
                     })}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="productSpec">
-                        {t('generate.form.productDescription.label')}
-                      </Label>
-                      <Textarea
-                        id="productSpec"
-                        placeholder={t('generate.form.productDescription.placeholder')}
-                        value={productSpec}
-                        onChange={(e) => setProductSpec(e.target.value)}
-                        rows={8}
-                        className="min-h-[200px]"
-                      />
-                    </div>
+                  </p>
+                </div>
 
-                    <div className="flex gap-4">
-                      <Button
-                        type="submit"
-                        disabled={!productSpec.trim() || isLoading}
-                        className="bg-teal-600 hover:bg-teal-700 flex-1"
-                      >
-                        {isLoading ? (
-                          <>
-                            <span className="animate-spin mr-2">⟳</span>
-                            {t('generate.form.generating')}
-                          </>
-                        ) : (
-                          t('generate.form.submit')
-                        )}
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => setProductSpec("")}
-                        disabled={!productSpec.trim()}
-                      >
-                        {t('common.cancel', { fallback: 'Clear' })}
-                      </Button>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="space-y-3">
+                    <Label htmlFor="productSpec" className="text-lg font-semibold text-gray-900">
+                      {t('generate.form.productDescription.label', { fallback: 'Product Description' })}
+                    </Label>
+                    <Textarea
+                      id="productSpec"
+                      placeholder={t('generate.form.productDescription.placeholder', {
+                        fallback: 'Describe your cosmetic product (e.g., anti-aging serum with hyaluronic acid and peptides for mature skin)'
+                      })}
+                      value={productSpec}
+                      onChange={(e) => setProductSpec(e.target.value)}
+                      rows={10}
+                      className="min-h-[250px] text-lg p-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:ring-0"
+                    />
+                  </div>
+
+                  <div className="flex gap-4">
+                    <Button
+                      type="submit"
+                      disabled={!productSpec.trim() || isLoading}
+                      className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex-1"
+                    >
+                      {isLoading ? (
+                        <>
+                          <span className="animate-spin mr-2">⟳</span>
+                          {t('generate.form.generating', { fallback: 'Generating your formula...' })}
+                        </>
+                      ) : (
+                        t('generate.form.submit', { fallback: 'Generate Formula' })
+                      )}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setProductSpec("")}
+                      disabled={!productSpec.trim()}
+                      className="px-8 py-4 rounded-full font-semibold border-2"
+                    >
+                      {t('common.cancel', { fallback: 'Cancel' })}
+                    </Button>
+                  </div>
+                </form>
+              </div>
 
               {/* Results Section */}
               {result && (
@@ -200,61 +215,82 @@ export default function GeneratePage() {
             </div>
 
             {/* Sidebar with Examples */}
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>
+            <div className="space-y-8">
+              <div className="bg-white rounded-2xl shadow-xl p-6 border">
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
                     {t('generate.examples.title', { fallback: 'Example Specifications' })}
-                  </CardTitle>
-                  <CardDescription>
+                  </h3>
+                  <p className="text-gray-600 text-sm">
                     {t('generate.examples.description', { fallback: 'Click on any example to use it as a starting point for your own formula' })}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                  </p>
+                </div>
+
+                <div className="space-y-4">
                   {exampleSpecs.map((example, index) => (
                     <div
                       key={index}
-                      className="border rounded-lg p-4 cursor-pointer hover:bg-gray-50 transition-colors"
-                      onClick={() => useExample(example.description)}
+                      className="border-2 border-gray-100 rounded-xl p-4 cursor-pointer hover:border-blue-200 hover:shadow-md transition-all duration-300 group"
+                      onClick={() => setProductSpec(example.description)}
                     >
-                      <div className="flex items-start justify-between mb-2">
-                        <h4 className="font-semibold text-sm">{example.title}</h4>
-                        <Badge variant="secondary" className="text-xs">{example.category}</Badge>
+                      <div className="flex items-start justify-between mb-3">
+                        <h4 className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{example.title}</h4>
+                        <Badge className="bg-blue-100 text-blue-800 text-xs font-semibold">{example.category}</Badge>
                       </div>
-                      <p className="text-xs text-gray-600 line-clamp-3">{example.description}</p>
+                      <p className="text-sm text-gray-600 leading-relaxed">{example.description}</p>
                     </div>
                   ))}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>
-                    {t('generate.tips.title', { fallback: 'Tips for Better Results' })}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3 text-sm text-gray-600">
-                  <div>
-                    <strong>{t('generate.tips.specific.title', { fallback: 'Be Specific:' })}</strong> {t('generate.tips.specific.description', { fallback: 'Include target age group, skin type, and specific concerns' })}
+              <div className="bg-white rounded-2xl shadow-xl p-6 border">
+                <h3 className="text-xl font-bold text-gray-900 mb-6">
+                  {t('generate.tips.title', { fallback: 'Tips for Better Results' })}
+                </h3>
+
+                <div className="space-y-4 text-sm">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <strong className="text-gray-900">{t('generate.tips.specific.title', { fallback: 'Be Specific:' })}</strong>
+                      <span className="text-gray-600 ml-1">{t('generate.tips.specific.description', { fallback: 'Include target age group, skin type, and specific concerns' })}</span>
+                    </div>
                   </div>
-                  <div>
-                    <strong>{t('generate.tips.ingredients.title', { fallback: 'Mention Ingredients:' })}</strong> {t('generate.tips.ingredients.description', { fallback: 'List preferred or avoided ingredients' })}
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <strong className="text-gray-900">{t('generate.tips.ingredients.title', { fallback: 'Mention Ingredients:' })}</strong>
+                      <span className="text-gray-600 ml-1">{t('generate.tips.ingredients.description', { fallback: 'List preferred or avoided ingredients' })}</span>
+                    </div>
                   </div>
-                  <div>
-                    <strong>{t('generate.tips.texture.title', { fallback: 'Describe Texture:' })}</strong> {t('generate.tips.texture.description', { fallback: 'Lightweight, rich, fast-absorbing, etc.' })}
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <strong className="text-gray-900">{t('generate.tips.texture.title', { fallback: 'Describe Texture:' })}</strong>
+                      <span className="text-gray-600 ml-1">{t('generate.tips.texture.description', { fallback: 'Lightweight, rich, fast-absorbing, etc.' })}</span>
+                    </div>
                   </div>
-                  <div>
-                    <strong>{t('generate.tips.claims.title', { fallback: 'Include Claims:' })}</strong> {t('generate.tips.claims.description', { fallback: 'What benefits should the product provide?' })}
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <strong className="text-gray-900">{t('generate.tips.claims.title', { fallback: 'Include Claims:' })}</strong>
+                      <span className="text-gray-600 ml-1">{t('generate.tips.claims.description', { fallback: 'What benefits should the product provide?' })}</span>
+                    </div>
                   </div>
-                  <div>
-                    <strong>{t('generate.tips.packaging.title', { fallback: 'Packaging Style:' })}</strong> {t('generate.tips.packaging.description', { fallback: 'Luxury, eco-friendly, clinical, minimalist, etc.' })}
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <strong className="text-gray-900">{t('generate.tips.packaging.title', { fallback: 'Packaging Style:' })}</strong>
+                      <span className="text-gray-600 ml-1">{t('generate.tips.packaging.description', { fallback: 'Luxury, eco-friendly, clinical, minimalist, etc.' })}</span>
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
