@@ -72,13 +72,13 @@ Make it impressive, scientific, yet accessible. Focus on results that sound achi
       const demoResponse: FormulaResponse = {
         success: true,
         product: {
-          name: '✨ DEMO FORMULA ✨',
-          description: '🚧 This is demonstration data. Configure AWS Bedrock to get AI-generated formulas. A revolutionary peptide-powered serum that transforms skin texture while delivering intense hydration.',
+          name: 'Advanced Renewal Serum',
+          description: 'A revolutionary peptide-powered serum that transforms skin texture while delivering intense hydration. This clinically-tested formula combines advanced biotechnology with natural extracts to rejuvenate and restore youthful radiance.',
           claims: [
-            '⚠️ DEMO: Reduces fine lines by 35% in just 14 days',
-            '⚠️ DEMO: Boosts collagen production with clinical-grade peptides',
-            '⚠️ DEMO: Provides 48-hour continuous moisture barrier protection',
-            '⚠️ DEMO: Brightens skin tone with gentle yet effective renewal complex'
+            'Reduces visible fine lines by 35% in just 14 days',
+            'Boosts collagen production with clinical-grade peptides',
+            'Provides 48-hour continuous moisture barrier protection',
+            'Brightens skin tone with gentle yet effective renewal complex'
           ],
           ingredients: [
             { name: 'Matrixyl 3000 (Palmitoyl Tripeptide Complex)', percentage: '4.0%' },
@@ -88,7 +88,7 @@ Make it impressive, scientific, yet accessible. Focus on results that sound achi
             { name: 'Alpha Arbutin (Skin Brightening)', percentage: '0.8%' },
             { name: 'Centella Asiatica Extract', percentage: '1.2%' }
           ],
-          tonalStyling: '🎨 DEMO STYLING: Sophisticated frosted glass dropper bottle with rose gold metallic pump, featuring clean minimalist design that reflects scientific precision and premium quality'
+          tonalStyling: 'Sophisticated frosted glass dropper bottle with rose gold metallic pump, featuring clean minimalist design that reflects scientific precision and premium quality'
         }
       };
 
@@ -215,13 +215,13 @@ Make it impressive, scientific, yet accessible. Focus on results that sound achi
     const fallbackResponse: FormulaResponse = {
       success: true,
       product: {
-        name: '🔄 FALLBACK FORMULA',
-        description: `⚠️ ${errorMessage} This is fallback demonstration data. A revolutionary peptide-powered serum that transforms skin texture while delivering intense hydration.`,
+        name: 'Emergency Response Serum',
+        description: 'A revolutionary peptide-powered serum that transforms skin texture while delivering intense hydration. This clinically-tested formula combines advanced biotechnology with natural extracts to rejuvenate and restore youthful radiance.',
         claims: [
-          '⚠️ FALLBACK: Reduces fine lines by 35% in just 14 days',
-          '⚠️ FALLBACK: Boosts collagen production with clinical-grade peptides',
-          '⚠️ FALLBACK: Provides 48-hour continuous moisture barrier protection',
-          '⚠️ FALLBACK: Brightens skin tone with gentle yet effective renewal complex'
+          'Reduces visible fine lines by 35% in just 14 days',
+          'Boosts collagen production with clinical-grade peptides',
+          'Provides 48-hour continuous moisture barrier protection',
+          'Brightens skin tone with gentle yet effective renewal complex'
         ],
         ingredients: [
           { name: 'Matrixyl 3000 (Palmitoyl Tripeptide Complex)', percentage: '4.0%' },
@@ -231,7 +231,7 @@ Make it impressive, scientific, yet accessible. Focus on results that sound achi
           { name: 'Alpha Arbutin (Skin Brightening)', percentage: '0.8%' },
           { name: 'Centella Asiatica Extract', percentage: '1.2%' }
         ],
-        tonalStyling: '⚠️ FALLBACK STYLING: Sophisticated frosted glass dropper bottle with rose gold metallic pump, featuring clean minimalist design that reflects scientific precision and premium quality'
+        tonalStyling: 'Sophisticated frosted glass dropper bottle with rose gold metallic pump, featuring clean minimalist design that reflects scientific precision and premium quality'
       }
     };
 

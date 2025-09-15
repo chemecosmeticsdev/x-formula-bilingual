@@ -216,7 +216,7 @@ export default function ResultPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="w-full bg-white border-b">
         <div className="container mx-auto px-6 py-4">
@@ -238,8 +238,8 @@ export default function ResultPage() {
       </header>
 
       {/* Result Content */}
-      <div className="container mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto">
+      <div className="container mx-auto px-6 py-8">
+        <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8">
           {/* Status Badge */}
           <div className="text-center mb-8">
             <Badge className="bg-green-100 text-green-700 border-green-300 px-4 py-2 text-sm font-medium">
@@ -262,7 +262,7 @@ export default function ResultPage() {
             <div className="flex flex-col items-center justify-center">
               {/* Product Image or Logo Circle */}
               <div className="relative mb-6">
-                <div className="w-40 h-40 bg-white border-4 border-gray-300 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden">
+                <div className="w-48 h-48 bg-white border-4 border-gray-300 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden">
                   {result.imageUrl && !imageError ? (
                     <img
                       src={result.imageUrl}
@@ -282,7 +282,7 @@ export default function ResultPage() {
                   {/* Fallback content - show logo initials */}
                   <div className={`w-full h-full flex items-center justify-center bg-white rounded-full absolute inset-0 ${imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
                     <div className="text-center">
-                      <div className="text-5xl font-bold text-blue-600 mb-1">
+                      <div className="text-6xl font-bold text-blue-600 mb-1">
                         {result.product.name.split(' ').map(word => word[0]).join('').substring(0, 2)}
                       </div>
                     </div>
@@ -347,10 +347,10 @@ export default function ResultPage() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg rounded-lg font-semibold min-w-[200px]">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 text-base rounded-md font-medium min-w-[180px]">
               Request Full Formula
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg rounded-lg font-semibold min-w-[200px]">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 text-base rounded-md font-medium min-w-[180px]">
               Order Prototype
             </Button>
           </div>
@@ -364,9 +364,11 @@ export default function ResultPage() {
 
           {/* Generate Another */}
           <div className="text-center pt-8 border-t border-gray-200">
-            <Button variant="outline" className="px-8 py-3 text-lg border-2 border-gray-300 hover:border-gray-400">
-              Generate Another Formula
-            </Button>
+            <Link href={`/${locale}/generate`}>
+              <Button variant="outline" className="px-8 py-2 text-base border border-gray-300 hover:border-gray-400 rounded-md">
+                Generate Another Formula
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
