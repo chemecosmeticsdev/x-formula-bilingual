@@ -183,6 +183,10 @@ p { margin-bottom: 1rem; }
   border-radius: 0.75rem;
 }
 
+.rounded-2xl {
+  border-radius: 1rem;
+}
+
 /* Button Styles */
 .btn {
   display: inline-flex;
@@ -264,6 +268,10 @@ p { margin-bottom: 1rem; }
 
 .max-w-4xl {
   max-width: 56rem;
+}
+
+.max-w-5xl {
+  max-width: 64rem;
 }
 
 /* Form Elements */
@@ -585,6 +593,10 @@ input:focus, textarea:focus, select:focus {
   display: none;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
 /* The md:flex responsive utility */
 @media (min-width: 768px) {
   .md\\:flex {
@@ -890,6 +902,14 @@ input:focus, textarea:focus, select:focus {
 }
 
 /* Additional sizing for result page */
+.w-32 {
+  width: 8rem;
+}
+
+.h-32 {
+  height: 8rem;
+}
+
 .w-64 {
   width: 16rem;
 }
