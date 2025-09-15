@@ -5,11 +5,8 @@ import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function GeneratePage() {
   const router = useRouter();
@@ -18,11 +15,7 @@ export default function GeneratePage() {
   const t = useTranslations();
   const [productSpec, setProductSpec] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<{
-    message: string;
-    productSpec: string;
-    status: string;
-  } | null>(null);
+  // Removed unused result state for cleaner code
 
   const exampleSpecs = [
     {
@@ -67,19 +60,13 @@ export default function GeneratePage() {
       router.push(`/${locale}/result`);
     } catch (error) {
       console.error("Error generating formula:", error);
-      setResult({
-        message: t('generate.errors.failed'),
-        productSpec: productSpec.trim(),
-        status: "error"
-      });
+      // Error handling removed for cleaner UX
     } finally {
       setIsLoading(false);
     }
   };
 
-  const useExample = (spec: string) => {
-    setProductSpec(spec);
-  };
+  // Removed unused useExample function as examples now use onClick inline
 
   return (
     <div className="min-h-screen bg-white">
@@ -87,210 +74,97 @@ export default function GeneratePage() {
       <header className="w-full bg-white border-b">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Link href={`/${locale}`}>
-                <h1 className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors cursor-pointer">
-                  {t('homepage.title', { fallback: 'X FORMULA PLATFORM' })}
-                </h1>
-              </Link>
-              <span className="ml-2 text-sm text-gray-500">v2.0</span>
-            </div>
-            <nav className="flex items-center space-x-8">
-              <div className="hidden md:flex items-center space-x-8">
-                <Link href={`/${locale}#features`} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                  {t('navigation.features', { fallback: 'Features' })}
-                </Link>
-                <Link href={`/${locale}#how-it-works`} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                  {t('navigation.howItWorks', { fallback: 'How It Works' })}
-                </Link>
-                <Link href={`/${locale}#testimonials`} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                  {t('navigation.about', { fallback: 'About' })}
-                </Link>
-              </div>
-              <LanguageSwitcher />
-            </nav>
+            <Link href={`/${locale}`} className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
+              <span className="mr-2">←</span>
+              <span>Back to Home</span>
+            </Link>
+            <h1 className="text-2xl font-bold text-gray-900">X FORMULA PLATFORM</h1>
+            <div className="w-24"></div> {/* Spacer for balance */}
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-blue-50 to-white py-20 px-6">
-        <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            {t('generate.title', { fallback: 'Generate Your Formula' })}
-          </h1>
-          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            {t('generate.subtitle', { fallback: 'Describe your cosmetic product and let AI create the perfect formulation' })}
-          </p>
-        </div>
-      </section>
-
       {/* Main Content */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
-
-          <div className="grid lg:grid-cols-3 gap-12">
-            {/* Main Form */}
-            <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl shadow-xl p-8 border">
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    {t('generate.form.productDescription.label', { fallback: 'Product Description' })}
-                  </h2>
-                  <p className="text-gray-600 leading-relaxed">
-                    {t('generate.form.description', {
-                      fallback: 'Provide detailed information about your desired cosmetic product. Be specific about target audience, key benefits, preferred ingredients, and packaging preferences.'
-                    })}
-                  </p>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-3">
-                    <Label htmlFor="productSpec" className="text-lg font-semibold text-gray-900">
-                      {t('generate.form.productDescription.label', { fallback: 'Product Description' })}
-                    </Label>
-                    <Textarea
-                      id="productSpec"
-                      placeholder={t('generate.form.productDescription.placeholder', {
-                        fallback: 'Describe your cosmetic product (e.g., anti-aging serum with hyaluronic acid and peptides for mature skin)'
-                      })}
-                      value={productSpec}
-                      onChange={(e) => setProductSpec(e.target.value)}
-                      rows={10}
-                      className="min-h-[250px] text-lg p-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:ring-0"
-                    />
-                  </div>
-
-                  <div className="flex gap-4">
-                    <Button
-                      type="submit"
-                      disabled={!productSpec.trim() || isLoading}
-                      className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex-1"
-                    >
-                      {isLoading ? (
-                        <>
-                          <span className="animate-spin mr-2">⟳</span>
-                          {t('generate.form.generating', { fallback: 'Generating your formula...' })}
-                        </>
-                      ) : (
-                        t('generate.form.submit', { fallback: 'Generate Formula' })
-                      )}
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setProductSpec("")}
-                      disabled={!productSpec.trim()}
-                      className="px-8 py-4 rounded-full font-semibold border-2"
-                    >
-                      {t('common.cancel', { fallback: 'Cancel' })}
-                    </Button>
-                  </div>
-                </form>
-              </div>
-
-              {/* Results Section */}
-              {result && (
-                <Card className="mt-8">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      Generation Result
-                      <Badge variant="outline">{result.status}</Badge>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                        <p className="text-blue-800">{result.message}</p>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold mb-2">Your Specification:</h4>
-                        <p className="text-gray-600 bg-gray-50 p-3 rounded">{result.productSpec}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
+      <main className="container mx-auto px-6 py-12">
+        <div className="max-w-2xl mx-auto">
+          {/* Hero Icon and Heading */}
+          <div className="text-center mb-12">
+            <div className="w-16 h-16 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center">
+              <span className="text-blue-600 text-2xl">🧪</span>
             </div>
-
-            {/* Sidebar with Examples */}
-            <div className="space-y-8">
-              <div className="bg-white rounded-2xl shadow-xl p-6 border">
-                <div className="mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {t('generate.examples.title', { fallback: 'Example Specifications' })}
-                  </h3>
-                  <p className="text-gray-600 text-sm">
-                    {t('generate.examples.description', { fallback: 'Click on any example to use it as a starting point for your own formula' })}
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  {exampleSpecs.map((example, index) => (
-                    <div
-                      key={index}
-                      className="border-2 border-gray-100 rounded-xl p-4 cursor-pointer hover:border-blue-200 hover:shadow-md transition-all duration-300 group"
-                      onClick={() => setProductSpec(example.description)}
-                    >
-                      <div className="flex items-start justify-between mb-3">
-                        <h4 className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{example.title}</h4>
-                        <Badge className="bg-blue-100 text-blue-800 text-xs font-semibold">{example.category}</Badge>
-                      </div>
-                      <p className="text-sm text-gray-600 leading-relaxed">{example.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl shadow-xl p-6 border">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">
-                  {t('generate.tips.title', { fallback: 'Tips for Better Results' })}
-                </h3>
-
-                <div className="space-y-4 text-sm">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <strong className="text-gray-900">{t('generate.tips.specific.title', { fallback: 'Be Specific:' })}</strong>
-                      <span className="text-gray-600 ml-1">{t('generate.tips.specific.description', { fallback: 'Include target age group, skin type, and specific concerns' })}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <strong className="text-gray-900">{t('generate.tips.ingredients.title', { fallback: 'Mention Ingredients:' })}</strong>
-                      <span className="text-gray-600 ml-1">{t('generate.tips.ingredients.description', { fallback: 'List preferred or avoided ingredients' })}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <strong className="text-gray-900">{t('generate.tips.texture.title', { fallback: 'Describe Texture:' })}</strong>
-                      <span className="text-gray-600 ml-1">{t('generate.tips.texture.description', { fallback: 'Lightweight, rich, fast-absorbing, etc.' })}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <strong className="text-gray-900">{t('generate.tips.claims.title', { fallback: 'Include Claims:' })}</strong>
-                      <span className="text-gray-600 ml-1">{t('generate.tips.claims.description', { fallback: 'What benefits should the product provide?' })}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <strong className="text-gray-900">{t('generate.tips.packaging.title', { fallback: 'Packaging Style:' })}</strong>
-                      <span className="text-gray-600 ml-1">{t('generate.tips.packaging.description', { fallback: 'Luxury, eco-friendly, clinical, minimalist, etc.' })}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              Describe Your Product Vision
+            </h1>
+            <p className="text-gray-600 text-lg">
+              Tell us about your product goals, target market, key requirements, and any specific claims you want to make. The more detailed you are, the better our AI can help you.
+            </p>
           </div>
+
+          {/* Simple Form */}
+          <div className="mb-12">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <Label htmlFor="productSpec" className="text-gray-900 font-medium mb-2 block">
+                  Product Specification
+                </Label>
+                <Textarea
+                  id="productSpec"
+                  placeholder="A lightweight, hydrating daily moisturizer for sensitive skin with SPF 30 and anti-pollution claims. Target demographic: Bangkok residents aged 25-35. Key requirements: fragrance-free, reef-safe sunscreen, suitable for all skin tones."
+                  value={productSpec}
+                  onChange={(e) => setProductSpec(e.target.value)}
+                  rows={6}
+                  className="w-full p-4 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                />
+                <p className="text-sm text-gray-500 mt-2">
+                  Include details about target audience, skin type, desired benefits, key ingredients, packaging preferences, and any regulatory requirements.
+                </p>
+              </div>
+
+              <div className="flex justify-center">
+                <Button
+                  type="submit"
+                  disabled={!productSpec.trim() || isLoading}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium flex items-center gap-2"
+                >
+                  {isLoading ? (
+                    <>
+                      <span className="animate-spin">⟳</span>
+                      <span>Generating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>🧪</span>
+                      <span>Generate Formula</span>
+                    </>
+                  )}
+                </Button>
+              </div>
+            </form>
+          </div>
+
+          {/* Example Specifications */}
+          <div className="border-t border-gray-200 pt-12">
+            <h3 className="text-xl font-bold text-gray-900 mb-8 text-center">
+              Example Specifications
+            </h3>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {exampleSpecs.map((example, index) => (
+                <div
+                  key={index}
+                  className="border border-gray-200 rounded-lg p-6 cursor-pointer hover:border-blue-300 hover:shadow-sm transition-all"
+                  onClick={() => setProductSpec(example.description)}
+                >
+                  <h4 className="font-semibold text-gray-900 mb-2">{example.title}</h4>
+                  <p className="text-sm text-gray-600 leading-relaxed italic">
+                    &ldquo;{example.description}&rdquo;
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </section>
+      </main>
     </div>
   );
 }

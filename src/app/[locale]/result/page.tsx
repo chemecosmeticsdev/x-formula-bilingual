@@ -35,7 +35,8 @@ export default function ResultPage() {
   const t = useTranslations();
   const [result, setResult] = useState<FormulaResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  // Image loading states removed as we're using static content
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     const generateFormula = async () => {
@@ -113,7 +114,9 @@ export default function ResultPage() {
 
         setResult(result);
 
-        // Image state management removed
+        // Reset image state for new result
+        setImageLoaded(false);
+        setImageError(false);
 
         // Clear the session storage
         if (typeof window !== 'undefined') {
@@ -213,23 +216,21 @@ export default function ResultPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="w-full bg-white border-b">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href={`/${locale}`}>
-              <Button variant="ghost" className="text-gray-600 hover:text-blue-600 flex items-center gap-2">
-                <span>←</span>
-                <span>Back to Home</span>
-              </Button>
+            <Link href={`/${locale}`} className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
+              <span className="mr-2">←</span>
+              <span>Back to Home</span>
             </Link>
             <h1 className="text-2xl font-bold text-gray-900">X FORMULA PLATFORM</h1>
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
-              <Button variant="outline" className="text-gray-600 flex items-center gap-2">
+              <Button variant="outline" className="text-gray-600 flex items-center gap-2 text-sm">
                 <span>📥</span>
-                <span>Download</span>
+                <span>Download PDF Report</span>
               </Button>
             </div>
           </div>
@@ -237,8 +238,8 @@ export default function ResultPage() {
       </header>
 
       {/* Result Content */}
-      <div className="container mx-auto px-6 py-8">
-        <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+      <div className="container mx-auto px-6 py-12">
+        <div className="max-w-4xl mx-auto">
           {/* Status Badge */}
           <div className="text-center mb-8">
             <Badge className="bg-green-100 text-green-700 border-green-300 px-4 py-2 text-sm font-medium">
@@ -249,30 +250,47 @@ export default function ResultPage() {
           {/* Product Name */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-6">
-              FRESH VITALITY SERUM
+              {result.product.name}
             </h1>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              A revitalizing serum designed to boost skin hydration, reduce fine lines, and provide a refreshing
-              cooling sensation. Enriched with advanced peptides and natural extracts to rejuvenate and brighten
-              the complexion for a youthful glow.
+              {result.product.description}
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-16 mb-12">
+          <div className="grid lg:grid-cols-2 gap-12 mb-12">
             {/* Left Column - Product Visual */}
             <div className="flex flex-col items-center justify-center">
-              {/* Circular Logo Design - matching target screenshots */}
+              {/* Product Image or Logo Circle */}
               <div className="relative mb-6">
-                <div className="w-48 h-48 bg-white border-4 border-gray-300 rounded-full flex items-center justify-center shadow-xl">
-                  <div className="text-center">
-                    <div className="text-5xl font-bold text-blue-600 mb-1">
-                      FV
+                <div className="w-40 h-40 bg-white border-4 border-gray-300 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden">
+                  {result.imageUrl && !imageError ? (
+                    <img
+                      src={result.imageUrl}
+                      alt={`${result.product.name} packaging mockup`}
+                      className={`w-full h-full object-cover rounded-full hover:scale-105 transition-transform duration-300 ${imageLoaded ? 'block' : 'hidden'}`}
+                      onLoad={() => {
+                        console.log('Image loaded successfully:', result.imageUrl);
+                        setImageLoaded(true);
+                      }}
+                      onError={() => {
+                        console.log('Image failed to load:', result.imageUrl);
+                        setImageError(true);
+                      }}
+                    />
+                  ) : null}
+
+                  {/* Fallback content - show logo initials */}
+                  <div className={`w-full h-full flex items-center justify-center bg-white rounded-full absolute inset-0 ${imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
+                    <div className="text-center">
+                      <div className="text-5xl font-bold text-blue-600 mb-1">
+                        {result.product.name.split(' ').map(word => word[0]).join('').substring(0, 2)}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <p className="text-center text-gray-600 font-medium text-lg">
-                FRESH VITALITY SERUM
+                {result.product.name}
               </p>
             </div>
 
@@ -284,30 +302,14 @@ export default function ResultPage() {
                   Key Claims
                 </h2>
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-white text-sm">✓</span>
+                  {result.product.claims.map((claim, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white text-sm">✓</span>
+                      </div>
+                      <span className="text-gray-700">{claim}</span>
                     </div>
-                    <span className="text-gray-700">Reduces visible wrinkles within 14 days</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-white text-sm">✓</span>
-                    </div>
-                    <span className="text-gray-700">Instant cooling effect lowers skin temperature by up to 6°C</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-white text-sm">✓</span>
-                    </div>
-                    <span className="text-gray-700">Enhances skin moisture retention and barrier strength</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-white text-sm">✓</span>
-                    </div>
-                    <span className="text-gray-700">Brightens and revitalizes dull skin</span>
-                  </div>
+                  ))}
                 </div>
               </div>
 
@@ -317,22 +319,12 @@ export default function ResultPage() {
                   Key Ingredients
                 </h2>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                    <span className="font-medium text-gray-900">Pepsensyal BC10230 (Wrinkle Reduction Complex)</span>
-                    <span className="font-bold text-gray-700">2.0%</span>
-                  </div>
-                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                    <span className="font-medium text-gray-900">Pseudoasis (Polar Microorganism Extract)</span>
-                    <span className="font-bold text-gray-700">3.0%</span>
-                  </div>
-                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                    <span className="font-medium text-gray-900">Gaialine (French Linseed Oil)</span>
-                    <span className="font-bold text-gray-700">1.5%</span>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <span className="font-medium text-gray-900">Borneol (Cooling Natural Extract)</span>
-                    <span className="font-bold text-gray-700">0.5%</span>
-                  </div>
+                  {result.product.ingredients.map((ingredient, index) => (
+                    <div key={index} className="flex justify-between items-center py-3 border-b border-gray-200 last:border-b-0">
+                      <span className="font-medium text-gray-900">{ingredient.name}</span>
+                      <span className="font-bold text-gray-700">{ingredient.percentage}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -347,8 +339,7 @@ export default function ResultPage() {
                   Tonal Styling:
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Sleek frosted glass bottle with silver accents and cool blue
-                  gradient, evoking freshness and scientific efficacy
+                  {result.product.tonalStyling}
                 </p>
               </div>
             </div>
