@@ -257,15 +257,34 @@ export default function ResultPage() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 mb-12">
+          <div className="grid md:grid-cols-2 gap-12 mb-12">
             {/* Left Column - Product Visual */}
             <div className="flex flex-col items-center justify-center">
-              {/* Logo Circle - Prioritize initials like target mockup */}
+              {/* Product Image Circle - AI generated or fallback to initials */}
               <div className="relative mb-6">
-                <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center shadow-sm">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-blue-600">
-                      {result.product.name.split(' ').map(word => word[0]).join('').substring(0, 2)}
+                <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center shadow-sm relative overflow-hidden">
+                  {result.imageUrl && !imageError ? (
+                    <img
+                      src={result.imageUrl}
+                      alt={`${result.product.name} packaging mockup`}
+                      className={`w-full h-full object-cover rounded-full hover:scale-105 transition-transform duration-300 ${imageLoaded ? 'block' : 'hidden'}`}
+                      onLoad={() => {
+                        console.log('Image loaded successfully:', result.imageUrl);
+                        setImageLoaded(true);
+                      }}
+                      onError={() => {
+                        console.log('Image failed to load:', result.imageUrl);
+                        setImageError(true);
+                      }}
+                    />
+                  ) : null}
+
+                  {/* Fallback content - show logo initials when no image */}
+                  <div className={`w-full h-full flex items-center justify-center bg-gray-100 rounded-full absolute inset-0 ${imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-blue-600">
+                        {result.product.name.split(' ').map(word => word[0]).join('').substring(0, 2)}
+                      </div>
                     </div>
                   </div>
                 </div>
