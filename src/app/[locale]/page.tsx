@@ -72,7 +72,7 @@ export default function Homepage(_props: Props) {
       {/* Features Section */}
       <section id="features" className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-4 gap-8">
             <div className="text-center group hover:transform hover:scale-105 transition-all duration-300">
               <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center">
                 <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
