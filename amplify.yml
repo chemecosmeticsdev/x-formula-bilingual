@@ -12,6 +12,16 @@ applications:
         build:
           commands:
             - echo "Building Next.js application..."
+            # Write Amplify environment variables to .env.production for runtime access
+            - echo "LAMBDA_BEDROCK_ENDPOINT=$LAMBDA_BEDROCK_ENDPOINT" >> .env.production
+            - echo "LAMBDA_BEDROCK_IMAGE_ENDPOINT=$LAMBDA_BEDROCK_IMAGE_ENDPOINT" >> .env.production
+            - echo "BEDROCK_ACCESS_KEY_ID=$BEDROCK_ACCESS_KEY_ID" >> .env.production
+            - echo "BEDROCK_SECRET_ACCESS_KEY=$BEDROCK_SECRET_ACCESS_KEY" >> .env.production
+            - echo "BEDROCK_REGION=$BEDROCK_REGION" >> .env.production
+            - echo "AI_IMAGE_GENERATION_ENDPOINT=$AI_IMAGE_GENERATION_ENDPOINT" >> .env.production
+            # Verify environment variables are written
+            - echo "Environment variables written to .env.production:"
+            - cat .env.production || echo ".env.production not found, continuing build"
             - npm run build
             - echo "Build completed successfully!"
         postBuild:
