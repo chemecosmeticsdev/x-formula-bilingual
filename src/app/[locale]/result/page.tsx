@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from 'next-intl';
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 // Card components removed as we're using custom styling
 import { Badge } from "@/components/ui/badge";
@@ -261,16 +260,14 @@ export default function ResultPage() {
           <div className="grid md:grid-cols-2 gap-12 mb-12">
             {/* Left Column - Product Visual */}
             <div className="flex flex-col items-center justify-center">
-              {/* Product Image Placeholder - rectangular to fit image properly, not circular */}
+              {/* Product Image Circle - AI generated or fallback to initials */}
               <div className="relative mb-6">
-                <div className="w-64 h-64 bg-gray-100 rounded-2xl flex items-center justify-center shadow-md relative overflow-hidden border-4 border-gray-200">
+                <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden">
                   {result.imageUrl && !imageError ? (
-                    <Image
+                    <img
                       src={result.imageUrl}
                       alt={`${result.product.name} packaging mockup`}
-                      width={256}
-                      height={256}
-                      className={`w-full h-full object-contain hover:scale-105 transition-transform duration-300 ${imageLoaded ? 'block' : 'hidden'}`}
+                      className="w-full h-full object-cover rounded-full hover:scale-105 transition-transform duration-300"
                       onLoad={() => {
                         console.log('Image loaded successfully:', result.imageUrl);
                         setImageLoaded(true);
@@ -282,18 +279,17 @@ export default function ResultPage() {
                     />
                   ) : null}
 
-                  {/* Fallback content - show logo initials when no image */}
-                  <div className={`w-full h-full flex items-center justify-center bg-gray-100 absolute inset-0 ${imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
+                  {/* Fallback content - show logo initials when no image or image hasn't loaded yet */}
+                  <div className={`w-full h-full flex items-center justify-center bg-gray-100 rounded-full absolute inset-0 ${result.imageUrl && imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-blue-600 mb-2">
+                      <div className="text-3xl font-bold text-blue-600">
                         {result.product.name.split(' ').map(word => word[0]).join('').substring(0, 2)}
                       </div>
-                      <div className="text-sm text-gray-500">Product Mockup</div>
                     </div>
                   </div>
                 </div>
               </div>
-              <p className="text-center text-gray-600 font-medium text-lg max-w-xs">
+              <p className="text-center text-gray-600 font-medium text-lg">
                 {result.product.name}
               </p>
             </div>
