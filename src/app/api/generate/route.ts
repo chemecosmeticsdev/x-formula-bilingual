@@ -38,7 +38,10 @@ export async function POST(request: NextRequest) {
     // Detect if input contains Thai characters
     const hasThaiCharacters = /[\u0E00-\u0E7F]/.test(productSpec);
     const outputLanguage = hasThaiCharacters ? 'Thai' : 'English';
-    console.log('Language detection:', { hasThaiCharacters, outputLanguage });
+    console.log('=== LANGUAGE DETECTION DEBUG ===');
+    console.log('Input text preview:', productSpec.substring(0, 50));
+    console.log('Language detection result:', { hasThaiCharacters, outputLanguage });
+    console.log('=== END LANGUAGE DETECTION ===');
 
     // Craft language-appropriate prompt for Lambda
     const optimizedPrompt = hasThaiCharacters ?
