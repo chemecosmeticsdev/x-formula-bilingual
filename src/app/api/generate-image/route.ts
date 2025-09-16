@@ -39,6 +39,72 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Generate product-specific packaging prompts based on product type
+    const getPackagingSpecs = (type: string) => {
+      const specs = {
+        'face oil': {
+          container: 'Dark amber glass dropper bottle',
+          shape: 'elegant cylindrical bottle with precise dropper mechanism',
+          size: '30ml luxury dropper bottle',
+          cap: 'premium gold or black dropper cap with rubber bulb',
+          features: 'UV-protective amber glass, precision dropper for controlled dispensing',
+          positioning: 'upright position showcasing the dropper mechanism'
+        },
+        'cleanser': {
+          container: 'Pump dispenser bottle or tube',
+          shape: 'practical pump bottle or squeezable tube',
+          size: '150ml pump bottle or 100ml tube',
+          cap: 'hygienic pump dispenser or flip-top cap',
+          features: 'easy-pump mechanism for wet hands, non-slip base',
+          positioning: 'pump bottle standing upright or tube at slight angle'
+        },
+        'moisturizer': {
+          container: 'Wide-mouth jar or pump bottle',
+          shape: 'substantial jar with wide opening or sleek pump bottle',
+          size: '50ml luxury jar or 100ml pump bottle',
+          cap: 'heavy weighted lid or pump dispenser',
+          features: 'wide opening for easy access, premium weight and feel',
+          positioning: 'jar with lid slightly askew showing texture or pump bottle upright'
+        },
+        'mask': {
+          container: 'Wide glass jar or tube',
+          shape: 'spacious jar for easy application or convenient tube',
+          size: '75ml treatment jar or 100ml tube',
+          cap: 'secure screw-on lid or flip cap',
+          features: 'wide mouth for mask application, elegant presentation',
+          positioning: 'jar with spatula beside it or tube standing upright'
+        },
+        'toner': {
+          container: 'Spray bottle or elegant bottle',
+          shape: 'fine mist spray bottle or tall elegant bottle',
+          size: '100ml spray bottle or 150ml pour bottle',
+          cap: 'fine mist sprayer or pour cap',
+          features: 'fine mist spray mechanism or controlled pour spout',
+          positioning: 'spray bottle upright or elegant bottle with slight tilt'
+        },
+        'balm': {
+          container: 'Small luxury tin or compact jar',
+          shape: 'compact round tin or small glass jar',
+          size: '15ml compact container',
+          cap: 'screw-on lid or twist-off cap',
+          features: 'travel-friendly size, solid balm presentation',
+          positioning: 'tin or jar with lid partially open showing balm texture'
+        },
+        'serum': {
+          container: 'Frosted glass dropper bottle',
+          shape: 'elegant dropper bottle with premium proportions',
+          size: '30ml luxury serum bottle',
+          cap: 'metallic dropper cap with precision mechanism',
+          features: 'UV-protective frosted glass, scientific precision dropper',
+          positioning: 'upright showcasing the elegant dropper design'
+        }
+      };
+
+      return specs[type as keyof typeof specs] || specs.serum;
+    };
+
+    const packagingSpec = getPackagingSpecs(productType || 'serum');
+
     // Create two versions: detailed for Nova Canvas, concise for Titan
     const detailedPrompt = `Generate a premium cosmetic product packaging mockup with professional studio photography quality:
 
@@ -56,14 +122,17 @@ VISUAL SPECIFICATIONS:
 - Photo-realistic rendering with professional studio lighting
 
 COMPOSITION SETUP:
-- Main product container (bottle/jar) positioned prominently in center-left
+- Main product container (${packagingSpec.container.toLowerCase()}) positioned prominently in center-left
+- ${packagingSpec.positioning}
 - Luxury retail packaging box positioned elegantly to the right of the product
 - Both items arranged in harmonious composition with professional spacing
 - Box should complement the product's design language and color scheme
 - Create visual balance between container and packaging box
 
 MATERIALS & DESIGN:
-- ${tonalStyling.includes('frosted') || tonalStyling.includes('glass') ? 'Frosted glass bottle' : 'Premium glass container'} with elegant proportions
+- ${packagingSpec.container} with ${packagingSpec.shape}
+- ${packagingSpec.size} showcasing ${packagingSpec.features}
+- ${packagingSpec.cap} with premium finishing
 - ${tonalStyling.includes('gold') || tonalStyling.includes('metallic') ? 'Metallic gold/silver accents' : 'Refined metallic details'} on cap and label
 - Clean, modern label design with scientific yet approachable typography
 - Luxury retail box with matching design aesthetic, premium materials and sophisticated branding
@@ -88,7 +157,7 @@ BRAND POSITIONING:
 Create a stunning packaging mockup featuring both the product container and its luxury retail box that would impress discerning customers and effectively communicate premium quality, scientific credibility, and luxury positioning.`;
 
     // Concise prompt for Titan (max 512 characters)
-    const concisePrompt = `Premium ${productType || 'serum'} packaging mockup: "${productName}" with ${tonalStyling} styling. Professional product photography showing luxury cosmetic container with elegant label alongside matching premium retail packaging box. Clean white background, studio lighting, ${tonalStyling.includes('gold') ? 'gold accents' : 'metallic details'}, high-end aesthetic, department store presentation.`;
+    const concisePrompt = `Premium ${productType || 'serum'} packaging mockup: "${productName}" in ${packagingSpec.container.toLowerCase()} with ${tonalStyling} styling. Professional product photography showing ${packagingSpec.shape} with elegant label alongside matching premium retail packaging box. Clean white background, studio lighting, ${tonalStyling.includes('gold') ? 'gold accents' : 'metallic details'}, high-end aesthetic, department store presentation.`;
 
     // Initialize environment variable with retry logic for serverless contexts
     // This addresses race conditions in AWS Lambda cold starts

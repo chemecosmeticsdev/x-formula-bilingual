@@ -75,6 +75,30 @@ export default function ResultPage() {
         // Generate product image (parallel to formula generation)
         let imageUrl: string | undefined;
         try {
+          // Detect product type from formula name and description
+          const detectProductType = (name: string, description: string): string => {
+            const combinedText = (name + ' ' + description).toLowerCase();
+
+            if (combinedText.includes('face oil') || combinedText.includes('facial oil') || combinedText.includes('oil')) {
+              return 'face oil';
+            } else if (combinedText.includes('cleanser') || combinedText.includes('cleansing') || combinedText.includes('wash') || combinedText.includes('foam')) {
+              return 'cleanser';
+            } else if (combinedText.includes('moisturizer') || combinedText.includes('cream') || combinedText.includes('lotion')) {
+              return 'moisturizer';
+            } else if (combinedText.includes('mask') || combinedText.includes('treatment mask')) {
+              return 'mask';
+            } else if (combinedText.includes('toner') || combinedText.includes('essence') || combinedText.includes('mist')) {
+              return 'toner';
+            } else if (combinedText.includes('balm')) {
+              return 'balm';
+            } else {
+              return 'serum'; // default fallback
+            }
+          };
+
+          const detectedProductType = detectProductType(formulaData.product.name, formulaData.product.description);
+          console.log('Detected product type:', detectedProductType);
+
           console.log('Calling image generation API...');
           const imageResponse = await fetch('/api/generate-image', {
             method: 'POST',
@@ -84,7 +108,7 @@ export default function ResultPage() {
             body: JSON.stringify({
               productName: formulaData.product.name,
               tonalStyling: formulaData.product.tonalStyling,
-              productType: 'serum'
+              productType: detectedProductType
             }),
           });
 
