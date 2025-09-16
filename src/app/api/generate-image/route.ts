@@ -101,6 +101,7 @@ Create a stunning packaging mockup featuring both the product container and its 
 
     if (!lambdaImageEndpoint) {
       console.log('ERROR: Lambda Bedrock image endpoint not configured. Falling back to demo image.');
+      console.log('DEBUGGING: This should not happen - environment variable should be set');
 
       // Return demo image immediately with clear indication
       const customizedImageUrl = `/api/demo-image?product=${encodeURIComponent(productName)}&style=${encodeURIComponent(tonalStyling)}&type=${encodeURIComponent(productType || 'serum')}`;
