@@ -9,10 +9,21 @@ applications:
             - echo "Validating environment variables..."
             - echo "NODE_ENV=$NODE_ENV"
             - echo "LAMBDA_BEDROCK_ENDPOINT=$LAMBDA_BEDROCK_ENDPOINT"
+            - echo "LAMBDA_BEDROCK_IMAGE_ENDPOINT=$LAMBDA_BEDROCK_IMAGE_ENDPOINT"
+            - echo "Available environment variables:"
+            - env | grep -E "(LAMBDA|BEDROCK)" || echo "No LAMBDA/BEDROCK variables found"
         build:
           commands:
             - echo "Building Next.js application..."
-            # Write Amplify environment variables to .env.production for runtime access
+            # Write Amplify environment variables to .env.local for Next.js runtime access
+            # Next.js loads .env.local by default in all environments
+            - echo "LAMBDA_BEDROCK_ENDPOINT=$LAMBDA_BEDROCK_ENDPOINT" >> .env.local
+            - echo "LAMBDA_BEDROCK_IMAGE_ENDPOINT=$LAMBDA_BEDROCK_IMAGE_ENDPOINT" >> .env.local
+            - echo "BEDROCK_ACCESS_KEY_ID=$BEDROCK_ACCESS_KEY_ID" >> .env.local
+            - echo "BEDROCK_SECRET_ACCESS_KEY=$BEDROCK_SECRET_ACCESS_KEY" >> .env.local
+            - echo "BEDROCK_REGION=$BEDROCK_REGION" >> .env.local
+            - echo "AI_IMAGE_GENERATION_ENDPOINT=$AI_IMAGE_GENERATION_ENDPOINT" >> .env.local
+            # Also write to .env.production for completeness
             - echo "LAMBDA_BEDROCK_ENDPOINT=$LAMBDA_BEDROCK_ENDPOINT" >> .env.production
             - echo "LAMBDA_BEDROCK_IMAGE_ENDPOINT=$LAMBDA_BEDROCK_IMAGE_ENDPOINT" >> .env.production
             - echo "BEDROCK_ACCESS_KEY_ID=$BEDROCK_ACCESS_KEY_ID" >> .env.production
@@ -20,6 +31,8 @@ applications:
             - echo "BEDROCK_REGION=$BEDROCK_REGION" >> .env.production
             - echo "AI_IMAGE_GENERATION_ENDPOINT=$AI_IMAGE_GENERATION_ENDPOINT" >> .env.production
             # Verify environment variables are written
+            - echo "Environment variables written to .env.local:"
+            - cat .env.local || echo ".env.local not found, continuing build"
             - echo "Environment variables written to .env.production:"
             - cat .env.production || echo ".env.production not found, continuing build"
             - npm run build
