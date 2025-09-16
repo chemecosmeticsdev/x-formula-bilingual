@@ -123,46 +123,96 @@ Make it impressive, scientific, yet accessible. Focus on results that sound achi
       console.log('Lambda endpoint not configured after retries. Using demo fallback.');
       const errorMessage = 'AWS Bedrock integration not configured. Using demo response. Please configure LAMBDA_BEDROCK_ENDPOINT in AWS Amplify environment variables.';
 
-      // Return language-appropriate fallback
+      // Generate dynamic response based on user input (temporary fix until LAMBDA_BEDROCK_ENDPOINT is configured)
+      console.log('Generating dynamic fallback response based on user input:', productSpec.substring(0, 100) + '...');
+
+      const generateDynamicResponse = (input: string, isThaiInput: boolean) => {
+        // Extract keywords from user input for dynamic generation
+        const lowerInput = input.toLowerCase();
+
+        // Determine product type
+        let productType = 'serum';
+        if (lowerInput.includes('oil') || lowerInput.includes('face oil')) productType = 'face oil';
+        else if (lowerInput.includes('cream') || lowerInput.includes('moisturizer')) productType = 'cream';
+        else if (lowerInput.includes('cleanser') || lowerInput.includes('wash')) productType = 'cleanser';
+        else if (lowerInput.includes('mask')) productType = 'mask';
+        else if (lowerInput.includes('toner')) productType = 'toner';
+
+        // Extract key ingredients mentioned
+        const mentionedIngredients: string[] = [];
+        const ingredientMap = {
+          'argan': 'Argan Oil',
+          'rosehip': 'Rosehip Oil',
+          'vitamin e': 'Vitamin E (Tocopherol)',
+          'vitamin c': 'Vitamin C (L-Ascorbic Acid)',
+          'hyaluronic acid': 'Sodium Hyaluronate',
+          'retinol': 'Retinol',
+          'niacinamide': 'Niacinamide (Vitamin B3)',
+          'peptides': 'Palmitoyl Tripeptide Complex',
+          'ceramides': 'Ceramide Complex NP',
+          'squalane': 'Squalane'
+        };
+
+        Object.entries(ingredientMap).forEach(([key, ingredient]) => {
+          if (lowerInput.includes(key)) {
+            mentionedIngredients.push(ingredient);
+          }
+        });
+
+        // Generate product name based on input
+        let productName = 'Custom Formula';
+        if (lowerInput.includes('luxury') || lowerInput.includes('premium')) {
+          productName = `Luxury ${productType.charAt(0).toUpperCase() + productType.slice(1)}`;
+        } else if (lowerInput.includes('anti-aging') || lowerInput.includes('anti aging')) {
+          productName = 'Anti-Aging Treatment';
+        } else if (lowerInput.includes('brightening') || lowerInput.includes('vitamin c')) {
+          productName = 'Brightening Complex';
+        } else if (productType === 'face oil') {
+          productName = 'Nourishing Face Oil';
+        }
+
+        return isThaiInput ? {
+          name: 'สูตรเฉพาะบุคคล',
+          description: 'สูตรสำคัญที่ออกแบบมาเฉพาะสำหรับความต้องการของคุณ ด้วยส่วนผสมคุณภาพสูงที่ได้รับการคัดสรรมาอย่างดี',
+          claims: [
+            'ปรับสภาพผิวให้ดีขึ้นอย่างเห็นได้ชัด',
+            'ให้ความชุ่มชื้นและบำรุงผิวอย่างล้ำลึก',
+            'เหมาะสำหรับการใช้ประจำวัน',
+            'ผ่านการทดสอบความปลอดภัยแล้ว'
+          ],
+          ingredients: mentionedIngredients.length > 0 ?
+            mentionedIngredients.map((ing, idx) => ({ name: ing, percentage: `${(idx + 1) * 1.5}%` })) :
+            [
+              { name: 'Sodium Hyaluronate', percentage: '2.0%' },
+              { name: 'Niacinamide (Vitamin B3)', percentage: '3.0%' },
+              { name: 'Ceramide Complex', percentage: '1.5%' }
+            ],
+          tonalStyling: 'บรรจุภัณฑ์สไตล์มินิมอลที่สะท้อนคุณภาพและความหรูหรา'
+        } : {
+          name: productName,
+          description: `A carefully crafted ${productType} formulated to address your specific skincare needs with premium ingredients and advanced formulation technology.`,
+          claims: [
+            `Targets specific ${productType === 'face oil' ? 'dry skin' : 'skin'} concerns effectively`,
+            'Delivers visible results with consistent use',
+            'Formulated with clinically-tested ingredients',
+            'Suitable for daily skincare routine'
+          ],
+          ingredients: mentionedIngredients.length > 0 ?
+            mentionedIngredients.map((ing, idx) => ({ name: ing, percentage: `${(idx + 1) * 1.5}%` })) :
+            [
+              { name: 'Sodium Hyaluronate (Multi-Molecular Weight)', percentage: '2.0%' },
+              { name: 'Niacinamide (Vitamin B3)', percentage: '3.0%' },
+              { name: 'Ceramide Complex NP', percentage: '1.5%' }
+            ],
+          tonalStyling: lowerInput.includes('amber') ?
+            'Elegant amber glass dropper bottle with premium metallic accents, designed to protect contents from light while maintaining luxury appeal' :
+            'Premium glass packaging with modern minimalist design reflecting quality and sophistication'
+        };
+      };
+
       const demoResponse: FormulaResponse = {
         success: true,
-        product: hasThaiCharacters ? {
-          name: 'เซรั่มฟื้นฟูพิเศษ',
-          description: 'เซรั่มเปปไทด์ที่ปฏิวัติการบำรุงผิว ช่วยเปลี่ยนแปลงเนื้อผิวพร้อมให้ความชุ่มชื้นเข้มข้น สูตรที่ผ่านการทดสอบทางคลินิกนี้ผสมผสานเทคโนโลยีทางชีวภาพขั้นสูงเข้ากับสารสกัดธรรมชาติ เพื่อฟื้นฟูและคืนความเปล่งปลั่งให้ผิวกลับมาดูอ่อนเยาว์',
-          claims: [
-            'ลดเส้นริ้วรอยที่มองเห็นได้ถึง 35% ในเวลาเพียง 14 วัน',
-            'กระตุ้นการสร้างคอลลาเจนด้วยเปปไทด์คุณภาพระดับคลินิก',
-            'ให้การป้องกันความชุ่มชื้นต่อเนื่องนาน 48 ชั่วโมง',
-            'ปรับสีผิวให้สม่ำเสมอด้วยสูตรฟื้นฟูที่อ่อนโยนแต่มีประสิทธิภาพ'
-          ],
-          ingredients: [
-            { name: 'Matrixyl 3000 (Palmitoyl Tripeptide Complex)', percentage: '4.0%' },
-            { name: 'Sodium Hyaluronate (Multi-Molecular Weight)', percentage: '2.5%' },
-            { name: 'Niacinamide (Vitamin B3)', percentage: '3.0%' },
-            { name: 'Ceramide Complex NP', percentage: '1.5%' },
-            { name: 'Alpha Arbutin (Skin Brightening)', percentage: '0.8%' },
-            { name: 'Centella Asiatica Extract', percentage: '1.2%' }
-          ],
-          tonalStyling: 'ขวดแก้วฝ้าพร้อมหัวปั๊มโรสโกลด์ ดีไซน์มินิมอลสะอาดตา สะท้อนความแม่นยำทางวิทยาศาสตร์และคุณภาพระดับพรีเมียม'
-        } : {
-          name: 'Advanced Renewal Serum',
-          description: 'A revolutionary peptide-powered serum that transforms skin texture while delivering intense hydration. This clinically-tested formula combines advanced biotechnology with natural extracts to rejuvenate and restore youthful radiance.',
-          claims: [
-            'Reduces visible fine lines by 35% in just 14 days',
-            'Boosts collagen production with clinical-grade peptides',
-            'Provides 48-hour continuous moisture barrier protection',
-            'Brightens skin tone with gentle yet effective renewal complex'
-          ],
-          ingredients: [
-            { name: 'Matrixyl 3000 (Palmitoyl Tripeptide Complex)', percentage: '4.0%' },
-            { name: 'Sodium Hyaluronate (Multi-Molecular Weight)', percentage: '2.5%' },
-            { name: 'Niacinamide (Vitamin B3)', percentage: '3.0%' },
-            { name: 'Ceramide Complex NP', percentage: '1.5%' },
-            { name: 'Alpha Arbutin (Skin Brightening)', percentage: '0.8%' },
-            { name: 'Centella Asiatica Extract', percentage: '1.2%' }
-          ],
-          tonalStyling: 'Sophisticated frosted glass dropper bottle with rose gold metallic pump, featuring clean minimalist design that reflects scientific precision and premium quality'
-        }
+        product: generateDynamicResponse(productSpec, hasThaiCharacters)
       };
 
       console.log('Returning demo response with configuration warning');
