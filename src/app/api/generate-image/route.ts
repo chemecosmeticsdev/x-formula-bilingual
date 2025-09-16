@@ -92,9 +92,12 @@ Create a stunning packaging mockup featuring both the product container and its 
 
     // Check AWS Bedrock Lambda endpoint configuration
     const lambdaImageEndpoint = process.env.LAMBDA_BEDROCK_IMAGE_ENDPOINT;
-    console.log('Environment variables check:');
+    console.log('=== IMAGE GENERATION ENVIRONMENT DEBUG ===');
     console.log('- LAMBDA_BEDROCK_IMAGE_ENDPOINT:', lambdaImageEndpoint ? 'SET' : 'MISSING');
+    console.log('- LAMBDA_BEDROCK_IMAGE_ENDPOINT value:', lambdaImageEndpoint);
     console.log('- NODE_ENV:', process.env.NODE_ENV);
+    console.log('- All env keys:', Object.keys(process.env).filter(key => key.includes('LAMBDA')).join(', '));
+    console.log('=== END ENVIRONMENT DEBUG ===');
 
     if (!lambdaImageEndpoint) {
       console.log('ERROR: Lambda Bedrock image endpoint not configured. Falling back to demo image.');
@@ -283,7 +286,10 @@ Create a stunning packaging mockup featuring both the product container and its 
       imageUrl: customizedImageUrl
     };
 
-    console.log('Falling back to demo image:', customizedImageUrl);
+    console.log('=== IMAGE GENERATION ERROR FALLBACK ===');
+    console.log('Falling back to demo image due to error:', customizedImageUrl);
+    console.log('Original error details:', error);
+    console.log('=== END ERROR FALLBACK ===');
     console.log(`=== IMAGE GENERATION API FALLBACK (${errorType}) ===`);
     return NextResponse.json(fallbackResponse);
   }
