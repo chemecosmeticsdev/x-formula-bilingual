@@ -257,17 +257,17 @@ export default function ResultPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 lg:gap-12 mb-12">
-            {/* Left Column - Product Visual */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12">
+            {/* Left Column - Product Visual - Enhanced */}
             <div className="flex flex-col items-center justify-center">
-              {/* Product Image Circle - AI generated or fallback to initials */}
-              <div className="relative mb-6">
-                <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden">
+              {/* Product Image Rectangle - AI generated mockup showcase */}
+              <div className="relative mb-6 w-full max-w-md">
+                <div className="w-full h-80 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl flex items-center justify-center shadow-xl relative overflow-hidden border border-gray-200">
                   {result.imageUrl && !imageError ? (
                     <img
                       src={result.imageUrl}
                       alt={`${result.product.name} packaging mockup`}
-                      className="w-full h-full object-cover rounded-full hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-contain p-6 hover:scale-105 transition-transform duration-300"
                       onLoad={() => {
                         console.log('Image loaded successfully:', result.imageUrl);
                         setImageLoaded(true);
@@ -280,18 +280,31 @@ export default function ResultPage() {
                   ) : null}
 
                   {/* Fallback content - show logo initials when no image or image hasn't loaded yet */}
-                  <div className={`w-full h-full flex items-center justify-center bg-gray-100 rounded-full absolute inset-0 ${result.imageUrl && imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-blue-600">
+                  <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl absolute inset-0 ${result.imageUrl && imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
+                    <div className="text-center p-8">
+                      <div className="text-6xl font-bold text-blue-600 mb-4">
                         {result.product.name.split(' ').map(word => word[0]).join('').substring(0, 2)}
+                      </div>
+                      <div className="text-gray-500 text-sm">
+                        {t('result.aiGeneratedMockup', { fallback: 'AI-Generated Mockup' })}
                       </div>
                     </div>
                   </div>
+
+                  {/* AI Badge */}
+                  <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                    AI Generated
+                  </div>
                 </div>
               </div>
-              <p className="text-center text-gray-600 font-medium text-lg">
-                {result.product.name}
-              </p>
+              <div className="text-center">
+                <p className="text-gray-600 font-medium text-lg mb-2">
+                  {result.product.name}
+                </p>
+                <p className="text-gray-400 text-sm">
+                  {t('result.aiGeneratedMockup', { fallback: 'AI-Generated Mockup' })}
+                </p>
+              </div>
             </div>
 
             {/* Right Column - Details */}
