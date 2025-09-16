@@ -23,8 +23,12 @@ export async function POST(request: NextRequest) {
   console.log('=== FORMULA GENERATION API START ===');
   console.log('Request received at:', new Date().toISOString());
 
+  let hasThaiCharacters = false;
+  let productSpec = '';
+
   try {
-    const { productSpec }: GenerateRequest = await request.json();
+    const requestData: GenerateRequest = await request.json();
+    productSpec = requestData.productSpec;
     console.log('Product specification received:', productSpec?.substring(0, 100) + '...');
 
     if (!productSpec?.trim()) {
@@ -36,7 +40,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Detect if input contains Thai characters
-    const hasThaiCharacters = /[\u0E00-\u0E7F]/.test(productSpec);
+    hasThaiCharacters = /[\u0E00-\u0E7F]/.test(productSpec);
     const outputLanguage = hasThaiCharacters ? 'Thai' : 'English';
     console.log('=== LANGUAGE DETECTION DEBUG ===');
     console.log('Input text preview:', productSpec.substring(0, 50));
