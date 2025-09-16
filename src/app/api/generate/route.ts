@@ -93,14 +93,34 @@ FORMAT RESPONSE AS JSON:
 
 Make it impressive, scientific, yet accessible. Focus on results that sound achievable and desirable.`;
 
-    // Check Lambda endpoint configuration
-    const lambdaEndpoint = process.env.LAMBDA_BEDROCK_ENDPOINT;
-    console.log('Environment variables check:');
-    console.log('- LAMBDA_BEDROCK_ENDPOINT:', lambdaEndpoint ? 'SET' : 'MISSING');
-    console.log('- NODE_ENV:', process.env.NODE_ENV);
+    // Initialize environment variable with retry logic for serverless contexts
+    // This addresses race conditions in AWS Lambda cold starts
+    const getEnvironmentVariable = async (key: string, maxRetries = 3, delayMs = 50): Promise<string | undefined> => {
+      for (let attempt = 0; attempt < maxRetries; attempt++) {
+        const value = process.env[key];
+        if (value) {
+          return value;
+        }
+
+        if (attempt < maxRetries - 1) {
+          // Small delay to allow environment variable initialization in serverless contexts
+          await new Promise(resolve => setTimeout(resolve, delayMs));
+          console.log(`Environment variable ${key} not available, retrying... (attempt ${attempt + 1}/${maxRetries})`);
+        }
+      }
+      return process.env[key]; // Final attempt
+    };
+
+    // Check Lambda endpoint configuration with retry logic
+    const lambdaEndpoint = await getEnvironmentVariable('LAMBDA_BEDROCK_ENDPOINT');
+
+    console.log('Environment variable check:', {
+      endpoint: lambdaEndpoint ? 'AVAILABLE' : 'MISSING',
+      nodeEnv: process.env.NODE_ENV
+    });
 
     if (!lambdaEndpoint) {
-      console.log('ERROR: Lambda endpoint not configured. Falling back to demo response.');
+      console.log('Lambda endpoint not configured after retries. Using demo fallback.');
       const errorMessage = 'AWS Bedrock integration not configured. Using demo response. Please configure LAMBDA_BEDROCK_ENDPOINT in AWS Amplify environment variables.';
 
       // Return language-appropriate fallback

@@ -90,18 +90,34 @@ Create a stunning packaging mockup featuring both the product container and its 
     // Concise prompt for Titan (max 512 characters)
     const concisePrompt = `Premium ${productType || 'serum'} packaging mockup: "${productName}" with ${tonalStyling} styling. Professional product photography showing luxury cosmetic container with elegant label alongside matching premium retail packaging box. Clean white background, studio lighting, ${tonalStyling.includes('gold') ? 'gold accents' : 'metallic details'}, high-end aesthetic, department store presentation.`;
 
-    // Check AWS Bedrock Lambda endpoint configuration
-    const lambdaImageEndpoint = process.env.LAMBDA_BEDROCK_IMAGE_ENDPOINT;
-    console.log('=== IMAGE GENERATION ENVIRONMENT DEBUG ===');
-    console.log('- LAMBDA_BEDROCK_IMAGE_ENDPOINT:', lambdaImageEndpoint ? 'SET' : 'MISSING');
-    console.log('- LAMBDA_BEDROCK_IMAGE_ENDPOINT value:', lambdaImageEndpoint);
-    console.log('- NODE_ENV:', process.env.NODE_ENV);
-    console.log('- All env keys:', Object.keys(process.env).filter(key => key.includes('LAMBDA')).join(', '));
-    console.log('=== END ENVIRONMENT DEBUG ===');
+    // Initialize environment variable with retry logic for serverless contexts
+    // This addresses race conditions in AWS Lambda cold starts
+    const getEnvironmentVariable = async (key: string, maxRetries = 3, delayMs = 50): Promise<string | undefined> => {
+      for (let attempt = 0; attempt < maxRetries; attempt++) {
+        const value = process.env[key];
+        if (value) {
+          return value;
+        }
+
+        if (attempt < maxRetries - 1) {
+          // Small delay to allow environment variable initialization in serverless contexts
+          await new Promise(resolve => setTimeout(resolve, delayMs));
+          console.log(`Environment variable ${key} not available, retrying... (attempt ${attempt + 1}/${maxRetries})`);
+        }
+      }
+      return process.env[key]; // Final attempt
+    };
+
+    // Check AWS Bedrock Lambda endpoint configuration with retry logic
+    const lambdaImageEndpoint = await getEnvironmentVariable('LAMBDA_BEDROCK_IMAGE_ENDPOINT');
+
+    console.log('Environment variable check:', {
+      endpoint: lambdaImageEndpoint ? 'AVAILABLE' : 'MISSING',
+      nodeEnv: process.env.NODE_ENV
+    });
 
     if (!lambdaImageEndpoint) {
-      console.log('ERROR: Lambda Bedrock image endpoint not configured. Falling back to demo image.');
-      console.log('DEBUGGING: This should not happen - environment variable should be set');
+      console.log('Lambda Bedrock image endpoint not configured after retries. Using demo fallback.');
 
       // Return demo image immediately with clear indication
       const customizedImageUrl = `/api/demo-image?product=${encodeURIComponent(productName)}&style=${encodeURIComponent(tonalStyling)}&type=${encodeURIComponent(productType || 'serum')}`;

@@ -116,7 +116,7 @@ describe('Production Readiness Checklist', () => {
       const bucketUrl = 'https://formula-platform-generated-images.s3.ap-southeast-1.amazonaws.com/generated-images/test.png'
       
       // Should use HTTPS
-      expect(bucketUrl).toStartWith('https://')
+      expect(bucketUrl.startsWith('https://')).toBe(true)
       
       // Should point to correct bucket structure
       expect(bucketUrl).toContain('formula-platform-generated-images')
