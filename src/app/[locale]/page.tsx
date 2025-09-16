@@ -182,8 +182,8 @@ export default function Homepage(_props: Props) {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('homepage.showcase.title', { fallback: 'Showcase' })}</h2>
-            <p className="text-gray-600 text-lg">{t('homepage.showcase.subtitle', { fallback: 'See examples of our AI-generated formulations' })}</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('navigation.showcase', { fallback: 'Showcase' })}</h2>
+            <p className="text-gray-600 text-lg">{t('homepage.footer.description', { fallback: 'AI-powered cosmetic formulation for the next generation of beauty products.' })}</p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -193,7 +193,7 @@ export default function Homepage(_props: Props) {
                   <span className="text-3xl font-bold text-blue-600">AI</span>
                 </div>
               </div>
-              <p className="text-gray-600 font-medium">{t('homepage.footer.description', { fallback: 'AI-powered cosmetic formulation for the next generation of beauty products.' })}</p>
+              <p className="text-gray-600 font-medium">{t('homepage.features.aiFormula.title', { fallback: 'AI Formula Generation' })}</p>
             </div>
 
             <div className="space-y-6">
@@ -203,7 +203,7 @@ export default function Homepage(_props: Props) {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    Advanced Anti-Aging Serum with proven results in clinical studies
+                    {t('generate.examples.antiAging.title', { fallback: 'Anti-Aging Serum' })}
                   </h3>
                 </div>
               </div>
@@ -214,7 +214,7 @@ export default function Homepage(_props: Props) {
                 </div>
                 <div>
                   <p className="text-gray-600 leading-relaxed">
-                    Get a detailed eco-formula with sustainably sourced ingredients and biodegradable packaging options
+                    {t('homepage.features.readyKits.description', { fallback: 'Complete product packages with formulas, packaging designs, and marketing materials ready for launch.' })}
                   </p>
                 </div>
               </div>
@@ -225,7 +225,7 @@ export default function Homepage(_props: Props) {
                 </div>
                 <div>
                   <p className="text-gray-600 leading-relaxed">
-                    Pay and receive samples with complete documentation and regulatory compliance
+                    {t('homepage.features.compliance.description', { fallback: 'All formulations meet international cosmetic regulations and safety standards automatically.' })}
                   </p>
                 </div>
               </div>
