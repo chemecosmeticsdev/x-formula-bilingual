@@ -76,9 +76,9 @@ export default function GeneratePage() {
           <div className="flex items-center justify-between">
             <Link href={`/${locale}`} className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
               <span className="mr-2">←</span>
-              <span>Back to Home</span>
+              <span>{t('common.back', { fallback: 'Back' })} {t('navigation.home', { fallback: 'Home' })}</span>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">X FORMULA PLATFORM</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{t('homepage.title', { fallback: 'X FORMULA PLATFORM' })}</h1>
             <div className="w-24"></div> {/* Spacer for balance */}
           </div>
         </div>
@@ -93,10 +93,10 @@ export default function GeneratePage() {
               <span className="text-blue-600 text-3xl">🧪</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-              Describe Your Product Vision
+              {t('generate.title', { fallback: 'Generate Your Formula' })}
             </h1>
             <p className="text-gray-600 text-xl max-w-3xl mx-auto leading-relaxed">
-              Tell us about your product goals, target market, key requirements, and any specific claims you want to make. The more detailed you are, the better our AI can help you.
+              {t('generate.subtitle', { fallback: 'Describe your cosmetic product and let AI create the perfect formulation' })}
             </p>
           </div>
 
@@ -105,18 +105,18 @@ export default function GeneratePage() {
             <form onSubmit={handleSubmit} className="space-y-8">
               <div>
                 <Label htmlFor="productSpec" className="text-gray-900 font-semibold text-lg mb-4 block">
-                  Product Specification
+                  {t('generate.form.productDescription.label', { fallback: 'Product Description' })}
                 </Label>
                 <Textarea
                   id="productSpec"
-                  placeholder="A lightweight, hydrating daily moisturizer for sensitive skin with SPF 30 and anti-pollution claims. Target demographic: Bangkok residents aged 25-35. Key requirements: fragrance-free, reef-safe sunscreen, suitable for all skin tones."
+                  placeholder={t('generate.form.productDescription.placeholder', { fallback: 'Describe your cosmetic product (e.g., anti-aging serum with hyaluronic acid and peptides for mature skin)' })}
                   value={productSpec}
                   onChange={(e) => setProductSpec(e.target.value)}
                   rows={8}
                   className="w-full p-6 border-2 border-gray-200 rounded-xl text-base leading-relaxed focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-200 resize-none shadow-sm"
                 />
                 <p className="text-gray-500 mt-4 text-base leading-relaxed">
-                  Include details about target audience, skin type, desired benefits, key ingredients, packaging preferences, and any regulatory requirements.
+                  {t('generate.form.description', { fallback: 'Provide detailed information about your desired cosmetic product. Be specific about target audience, key benefits, preferred ingredients, and packaging preferences.' })}
                 </p>
               </div>
 
@@ -129,12 +129,12 @@ export default function GeneratePage() {
                   {isLoading ? (
                     <>
                       <span className="animate-spin text-xl">⟳</span>
-                      <span>Generating...</span>
+                      <span>{t('generate.form.generating', { fallback: 'Generating your formula...' })}</span>
                     </>
                   ) : (
                     <>
                       <span className="text-xl">🧪</span>
-                      <span>Generate Formula</span>
+                      <span>{t('generate.form.submit', { fallback: 'Generate Formula' })}</span>
                     </>
                   )}
                 </Button>
@@ -145,7 +145,7 @@ export default function GeneratePage() {
           {/* Example Specifications */}
           <div className="border-t border-gray-200 pt-16">
             <h3 className="text-2xl font-bold text-gray-900 mb-12 text-center">
-              Example Specifications
+              {t('generate.examples.title', { fallback: 'Example Specifications' })}
             </h3>
 
             <div className="grid md:grid-cols-2 gap-8">

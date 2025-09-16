@@ -50,18 +50,18 @@ export default function Homepage(_props: Props) {
       <section className="bg-gradient-to-b from-blue-50 to-white py-24 px-6">
         <div className="container mx-auto text-center">
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
-            CREATE FORMULA IDEAS<br />
+            {t('homepage.hero.title', { highlight: t('homepage.hero.highlight', { fallback: 'Cosmetic' }), fallback: 'AI-Powered Cosmetic Formulation' })}<br />
             <span className="text-blue-600">
-              WITH AI
+              {t('navigation.generateFormula', { fallback: 'Generate Formula' })}
             </span>
           </h1>
           <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            Get concepts, claims, and more. Powered by Chemecosmetics
+            {t('homepage.hero.subtitle', { fallback: 'Advanced AI creates custom formulas AND product packaging designs. Get complete ready-to-sell kits in minutes, not months.' })}
           </p>
           <div className="mb-16">
             <Link href={`/${locale}/generate`}>
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-12 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-                GENERATE FORMULA
+                {t('homepage.hero.ctaPrimary', { fallback: 'Start Creating →' })}
                 <span className="ml-3 text-xl">→</span>
               </Button>
             </Link>
@@ -79,9 +79,9 @@ export default function Homepage(_props: Props) {
                   <span className="text-white text-2xl">🧪</span>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">AI Formula Generation</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{t('homepage.features.aiFormula.title', { fallback: 'AI Formula Generation' })}</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Advanced AI creates custom formulas based on your specifications
+                {t('homepage.features.aiFormula.description', { fallback: 'Generate professional cosmetic formulations using advanced AI algorithms trained on thousands of proven formulas.' })}
               </p>
             </div>
 
@@ -91,9 +91,9 @@ export default function Homepage(_props: Props) {
                   <span className="text-white text-2xl">📊</span>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Trend Analysis</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{t('homepage.features.aiPackaging.title', { fallback: 'AI Packaging Design' })}</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Stay ahead with market trend analysis and consumer insights
+                {t('homepage.features.aiPackaging.description', { fallback: 'AI-powered packaging mockups that match your product\'s aesthetic and target market perfectly.' })}
               </p>
             </div>
 
@@ -103,9 +103,9 @@ export default function Homepage(_props: Props) {
                   <span className="text-white text-2xl">📦</span>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Ready-to-Sell Kits</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{t('homepage.features.readyKits.title', { fallback: 'Ready-to-Sell Kits' })}</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Complete formulation packages ready for market launch
+                {t('homepage.features.readyKits.description', { fallback: 'Complete product packages with formulas, packaging designs, and marketing materials ready for launch.' })}
               </p>
             </div>
 
@@ -115,9 +115,9 @@ export default function Homepage(_props: Props) {
                   <span className="text-white text-2xl">🏭</span>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">OEM/ODM Service</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{t('homepage.features.compliance.title', { fallback: 'Regulatory Compliance' })}</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Full manufacturing support from concept to market
+                {t('homepage.features.compliance.description', { fallback: 'All formulations meet international cosmetic regulations and safety standards automatically.' })}
               </p>
             </div>
           </div>
@@ -128,8 +128,8 @@ export default function Homepage(_props: Props) {
       <section id="how-it-works" className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">HOW IT WORKS</h2>
-            <p className="text-gray-600 text-lg">Simple steps to your perfect formula</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('homepage.howItWorks.title', { fallback: 'How It Works' })}</h2>
+            <p className="text-gray-600 text-lg">{t('homepage.howItWorks.subtitle', { fallback: 'Four simple steps to transform your vision into a complete ready-to-sell cosmetic kit' })}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-12">
@@ -140,9 +140,9 @@ export default function Homepage(_props: Props) {
                 </div>
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Specify product goals</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('homepage.howItWorks.step1.title', { fallback: 'Describe Your Product' })}</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Tell us your product vision, target market, and key requirements
+                  {t('homepage.howItWorks.step1.description', { fallback: 'Tell us about your cosmetic product vision, target market, and desired effects.' })}
                 </p>
               </div>
             </div>
@@ -154,9 +154,9 @@ export default function Homepage(_props: Props) {
                 </div>
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Get a concept and formula</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('homepage.howItWorks.step2.title', { fallback: 'AI Creates Formula' })}</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  AI generates a complete concept with ingredients and claims
+                  {t('homepage.howItWorks.step2.description', { fallback: 'Our AI analyzes your requirements and generates a professional formulation with detailed ingredients.' })}
                 </p>
               </div>
             </div>
@@ -168,9 +168,9 @@ export default function Homepage(_props: Props) {
                 </div>
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Pay and receive samples</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('homepage.howItWorks.step3.title', { fallback: 'Design Packaging' })}</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Order prototypes and receive professional samples
+                  {t('homepage.howItWorks.step3.description', { fallback: 'Get AI-generated packaging mockups that perfectly match your product and brand aesthetic.' })}
                 </p>
               </div>
             </div>
@@ -182,8 +182,8 @@ export default function Homepage(_props: Props) {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">FORMULA SHOWCASE</h2>
-            <p className="text-gray-600 text-lg">See what our AI can create for you</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('homepage.showcase.title', { fallback: 'Showcase' })}</h2>
+            <p className="text-gray-600 text-lg">{t('homepage.showcase.subtitle', { fallback: 'See examples of our AI-generated formulations' })}</p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -193,7 +193,7 @@ export default function Homepage(_props: Props) {
                   <span className="text-3xl font-bold text-blue-600">AI</span>
                 </div>
               </div>
-              <p className="text-gray-600 font-medium">AI-Generated Formula Visualization</p>
+              <p className="text-gray-600 font-medium">{t('homepage.footer.description', { fallback: 'AI-powered cosmetic formulation for the next generation of beauty products.' })}</p>
             </div>
 
             <div className="space-y-6">
@@ -238,8 +238,8 @@ export default function Homepage(_props: Props) {
       <section id="testimonials" className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">CUSTOMER TESTIMONIALS</h2>
-            <p className="text-gray-600 text-lg">What our clients say about us</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('navigation.about', { fallback: 'About' })}</h2>
+            <p className="text-gray-600 text-lg">{t('homepage.footer.description', { fallback: 'AI-powered cosmetic formulation for the next generation of beauty products.' })}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -251,11 +251,11 @@ export default function Homepage(_props: Props) {
                   </div>
                 </div>
                 <p className="text-gray-600 italic mb-6 text-center leading-relaxed">
-                  &ldquo;The AI-generated formulas saved us months of R&amp;D time. Incredible accuracy and market relevance.&rdquo;
+                  &ldquo;{t('homepage.hero.subtitle', { fallback: 'Advanced AI creates custom formulas AND product packaging designs. Get complete ready-to-sell kits in minutes, not months.' })}&rdquo;
                 </p>
                 <div className="text-center">
-                  <p className="font-semibold text-gray-900">Sarah Chen</p>
-                  <p className="text-gray-500 text-sm">Beauty Innovations Co.</p>
+                  <p className="font-semibold text-gray-900">X Formula</p>
+                  <p className="text-gray-500 text-sm">Platform</p>
                 </div>
               </CardContent>
             </Card>
@@ -268,11 +268,11 @@ export default function Homepage(_props: Props) {
                   </div>
                 </div>
                 <p className="text-gray-600 italic mb-6 text-center leading-relaxed">
-                  &ldquo;Outstanding ingredient recommendations that perfectly matched our sustainability goals.&rdquo;
+                  &ldquo;{t('homepage.features.aiFormula.description', { fallback: 'Generate professional cosmetic formulations using advanced AI algorithms trained on thousands of proven formulas.' })}&rdquo;
                 </p>
                 <div className="text-center">
-                  <p className="font-semibold text-gray-900">Marcus Rodriguez</p>
-                  <p className="text-gray-500 text-sm">Natural Cosmetics Ltd.</p>
+                  <p className="font-semibold text-gray-900">AI Formula</p>
+                  <p className="text-gray-500 text-sm">Generation</p>
                 </div>
               </CardContent>
             </Card>
@@ -285,11 +285,11 @@ export default function Homepage(_props: Props) {
                   </div>
                 </div>
                 <p className="text-gray-600 italic mb-6 text-center leading-relaxed">
-                  &ldquo;The scientific approach and detailed analysis exceeded our expectations completely.&rdquo;
+                  &ldquo;{t('homepage.features.readyKits.description', { fallback: 'Complete product packages with formulas, packaging designs, and marketing materials ready for launch.' })}&rdquo;
                 </p>
                 <div className="text-center">
-                  <p className="font-semibold text-gray-900">Dr. Emily Watson</p>
-                  <p className="text-gray-500 text-sm">SkinCare Research Institute</p>
+                  <p className="font-semibold text-gray-900">Ready Kits</p>
+                  <p className="text-gray-500 text-sm">Solutions</p>
                 </div>
               </CardContent>
             </Card>
@@ -319,16 +319,16 @@ export default function Homepage(_props: Props) {
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">X FORMULA PLATFORM</h3>
+              <h3 className="text-xl font-bold mb-4">{t('homepage.title', { fallback: 'X FORMULA PLATFORM' })}</h3>
               <p className="text-gray-400 mb-4">
-                Powered by Chemecosmetics
+                {t('homepage.footer.description', { fallback: 'AI-powered cosmetic formulation for the next generation of beauty products.' })}
               </p>
             </div>
             <div>
               <div className="flex flex-wrap gap-6 text-gray-400">
-                <a href="#" className="hover:text-white transition-colors">Contact</a>
-                <a href="#" className="hover:text-white transition-colors">Support</a>
-                <a href="#" className="hover:text-white transition-colors">Documentation</a>
+                <a href="#" className="hover:text-white transition-colors">{t('homepage.footer.company.contact', { fallback: 'Contact' })}</a>
+                <a href="#" className="hover:text-white transition-colors">{t('homepage.footer.company.support', { fallback: 'Support' })}</a>
+                <a href="#" className="hover:text-white transition-colors">{t('navigation.about', { fallback: 'About' })}</a>
               </div>
             </div>
           </div>

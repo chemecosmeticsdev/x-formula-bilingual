@@ -223,9 +223,9 @@ export default function ResultPage() {
           <div className="flex items-center justify-between">
             <Link href={`/${locale}`} className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
               <span className="mr-2">←</span>
-              <span>Back to Home</span>
+              <span>{t('common.back', { fallback: 'Back' })} {t('navigation.home', { fallback: 'Home' })}</span>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">X FORMULA PLATFORM</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{t('homepage.title', { fallback: 'X FORMULA PLATFORM' })}</h1>
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
               <Button variant="outline" className="text-gray-600 flex items-center gap-2 text-sm">
@@ -243,7 +243,7 @@ export default function ResultPage() {
           {/* Status Badge */}
           <div className="text-center mb-8">
             <Badge className="bg-green-100 text-green-700 border-green-300 px-4 py-2 text-sm font-medium">
-              ✓ Generated Concept
+              ✓ {t('result.generatedConcept', { fallback: 'Generated Concept' })}
             </Badge>
           </div>
 
@@ -299,7 +299,7 @@ export default function ResultPage() {
               {/* Key Claims */}
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  Key Claims
+                  {t('result.product.claims', { fallback: 'Key Benefits' })}
                 </h2>
                 <div className="space-y-4">
                   {result.product.claims.map((claim, index) => (
@@ -316,7 +316,7 @@ export default function ResultPage() {
               {/* Key Ingredients */}
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  Key Ingredients
+                  {t('result.product.ingredients', { fallback: 'Ingredients' })}
                 </h2>
                 <div className="space-y-3">
                   {result.product.ingredients.map((ingredient, index) => (
@@ -336,7 +336,7 @@ export default function ResultPage() {
               <div className="text-2xl">🎨</div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2 text-lg">
-                  Tonal Styling:
+                  {t('result.product.tonalStyling', { fallback: 'Packaging Style' })}:
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
                   {result.product.tonalStyling}
@@ -348,17 +348,17 @@ export default function ResultPage() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-base rounded-lg font-semibold min-w-[200px] shadow-md hover:shadow-lg transition-all duration-200">
-              Request Full Formula
+              {t('result.requestFullFormula', { fallback: 'Request Full Formula' })}
             </Button>
             <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-base rounded-lg font-semibold min-w-[200px] shadow-md hover:shadow-lg transition-all duration-200">
-              Order Prototype
+              {t('result.orderPrototype', { fallback: 'Order Prototype' })}
             </Button>
           </div>
 
           <div className="text-center mb-12">
             <Button variant="ghost" className="text-gray-600 hover:text-teal-600 flex items-center gap-2 px-6 py-2 rounded-lg transition-colors duration-200">
               <span className="text-lg">♡</span>
-              <span>Add to Wishlist</span>
+              <span>{t('result.addToWishlist', { fallback: 'Add to Wishlist' })}</span>
             </Button>
           </div>
 
@@ -366,7 +366,7 @@ export default function ResultPage() {
           <div className="text-center pt-8 border-t border-gray-200">
             <Link href={`/${locale}/generate`}>
               <Button variant="outline" className="px-8 py-3 text-base border-2 border-gray-300 hover:border-teal-500 hover:text-teal-600 rounded-lg font-medium transition-all duration-200">
-                Generate Another Formula
+                {t('result.actions.generateNew', { fallback: 'Generate New Formula' })}
               </Button>
             </Link>
           </div>
