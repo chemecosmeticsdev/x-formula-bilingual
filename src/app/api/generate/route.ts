@@ -35,8 +35,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Craft impressive, concise prompt for Lambda
-    const optimizedPrompt = `Create a premium cosmetic formulation for this product specification:
+    // Detect if input contains Thai characters
+    const hasThaiCharacters = /[\u0E00-\u0E7F]/.test(productSpec);
+    const outputLanguage = hasThaiCharacters ? 'Thai' : 'English';
+    console.log('Language detection:', { hasThaiCharacters, outputLanguage });
+
+    // Craft language-appropriate prompt for Lambda
+    const optimizedPrompt = hasThaiCharacters ?
+    `สร้างสูตรเครื่องสำอางระดับพรีเมียมสำหรับข้อกำหนดผลิตภัณฑ์นี้:
+
+${productSpec}
+
+ข้อกำหนด:
+- สร้างชื่อผลิตภัณฑ์ที่น่าสนใจ 2-3 คำที่ฟังดูหรูหราและเหมาะสำหรับการตลาด
+- เขียนคำอธิบายผลิตภัณฑ์ที่กระชับ 2 ประโยคที่เน้นประโยชน์หลัก
+- ระบุการอ้างสรรพคุณ 4 ข้อที่ทรงพลังฟังดูเป็นวิทยาศาสตร์แต่เข้าใจง่าย
+- รวมส่วนผสมออกฤทธิ์หลัก 4-6 ชนิดพร้อมเปอร์เซ็นต์ที่สมเหตุสมผล
+- อธิบายบรรจุภัณฑ์ในประโยคเดียวที่น่าสนใจ เน้นความหรูหราและประสิทธิภาพ
+
+ตอบกลับเป็น JSON:
+{
+  "name": "ชื่อผลิตภัณฑ์พรีเมียม",
+  "description": "คำอธิบาย 2 ประโยคกระชับที่ขายประโยชน์และประสบการณ์",
+  "claims": ["การอ้างสรรพคุณ 1 พร้อมประโยชน์เฉพาะ/กรอบเวลา", "การอ้างสรรพคุณ 2 พร้อมผลลัพธ์ที่วัดได้", "การอ้างสรรพคุณ 3 พร้อมคุณสมบัติเฉพาะ", "การอ้างสรรพคุณ 4 พร้อมการปรับปรุงผิว"],
+  "ingredients": [{"name": "Active Ingredient (Scientific Name)", "percentage": "X.X%"}, ...],
+  "tonalStyling": "ประโยคเดียวที่น่าสนใจอธิบายบรรจุภัณฑ์หรูหราที่เข้ากับการวางตำแหน่งผลิตภัณฑ์"
+}
+
+หมายเหตุสำคัญ: ชื่อส่วนผสม (ingredients) ให้ใช้ภาษาอังกฤษตามมาตรฐานสากล แต่ข้อมูลอื่นทั้งหมดให้เป็นภาษาไทย ทำให้น่าประทับใจ เป็นวิทยาศาสตร์ แต่เข้าใจง่าย เน้นผลลัพธ์ที่ฟังดูเป็นไปได้และน่าปรารถนา`
+    :
+    `Create a premium cosmetic formulation for this product specification:
 
 ${productSpec}
 
@@ -68,10 +96,28 @@ Make it impressive, scientific, yet accessible. Focus on results that sound achi
       console.log('ERROR: Lambda endpoint not configured. Falling back to demo response.');
       const errorMessage = 'AWS Bedrock integration not configured. Using demo response. Please configure LAMBDA_BEDROCK_ENDPOINT in AWS Amplify environment variables.';
 
-      // Return fallback immediately with clear indication it's demo data
+      // Return language-appropriate fallback
       const demoResponse: FormulaResponse = {
         success: true,
-        product: {
+        product: hasThaiCharacters ? {
+          name: 'เซรั่มฟื้นฟูพิเศษ',
+          description: 'เซรั่มเปปไทด์ที่ปฏิวัติการบำรุงผิว ช่วยเปลี่ยนแปลงเนื้อผิวพร้อมให้ความชุ่มชื้นเข้มข้น สูตรที่ผ่านการทดสอบทางคลินิกนี้ผสมผสานเทคโนโลยีทางชีวภาพขั้นสูงเข้ากับสารสกัดธรรมชาติ เพื่อฟื้นฟูและคืนความเปล่งปลั่งให้ผิวกลับมาดูอ่อนเยาว์',
+          claims: [
+            'ลดเส้นริ้วรอยที่มองเห็นได้ถึง 35% ในเวลาเพียง 14 วัน',
+            'กระตุ้นการสร้างคอลลาเจนด้วยเปปไทด์คุณภาพระดับคลินิก',
+            'ให้การป้องกันความชุ่มชื้นต่อเนื่องนาน 48 ชั่วโมง',
+            'ปรับสีผิวให้สม่ำเสมอด้วยสูตรฟื้นฟูที่อ่อนโยนแต่มีประสิทธิภาพ'
+          ],
+          ingredients: [
+            { name: 'Matrixyl 3000 (Palmitoyl Tripeptide Complex)', percentage: '4.0%' },
+            { name: 'Sodium Hyaluronate (Multi-Molecular Weight)', percentage: '2.5%' },
+            { name: 'Niacinamide (Vitamin B3)', percentage: '3.0%' },
+            { name: 'Ceramide Complex NP', percentage: '1.5%' },
+            { name: 'Alpha Arbutin (Skin Brightening)', percentage: '0.8%' },
+            { name: 'Centella Asiatica Extract', percentage: '1.2%' }
+          ],
+          tonalStyling: 'ขวดแก้วฝ้าพร้อมหัวปั๊มโรสโกลด์ ดีไซน์มินิมอลสะอาดตา สะท้อนความแม่นยำทางวิทยาศาสตร์และคุณภาพระดับพรีเมียม'
+        } : {
           name: 'Advanced Renewal Serum',
           description: 'A revolutionary peptide-powered serum that transforms skin texture while delivering intense hydration. This clinically-tested formula combines advanced biotechnology with natural extracts to rejuvenate and restore youthful radiance.',
           claims: [
@@ -211,10 +257,28 @@ Make it impressive, scientific, yet accessible. Focus on results that sound achi
 
     console.log('Using fallback response due to error:', errorMessage);
 
-    // Return fallback response with clear error indication
+    // Return language-appropriate fallback response with clear error indication
     const fallbackResponse: FormulaResponse = {
       success: true,
-      product: {
+      product: hasThaiCharacters ? {
+        name: 'เซรั่มแก้ปัญหาฉุกเฉิน',
+        description: 'เซรั่มเปปไทด์ที่ปฏิวัติการบำรุงผิว ช่วยเปลี่ยนแปลงเนื้อผิวพร้อมให้ความชุ่มชื้นเข้มข้น สูตรที่ผ่านการทดสอบทางคลินิกนี้ผสมผสานเทคโนโลยีทางชีวภาพขั้นสูงเข้ากับสารสกัดธรรมชาติ เพื่อฟื้นฟูและคืนความเปล่งปลั่งให้ผิวกลับมาดูอ่อนเยาว์',
+        claims: [
+          'ลดเส้นริ้วรอยที่มองเห็นได้ถึง 35% ในเวลาเพียง 14 วัน',
+          'กระตุ้นการสร้างคอลลาเจนด้วยเปปไทด์คุณภาพระดับคลินิก',
+          'ให้การป้องกันความชุ่มชื้นต่อเนื่องนาน 48 ชั่วโมง',
+          'ปรับสีผิวให้สม่ำเสมอด้วยสูตรฟื้นฟูที่อ่อนโยนแต่มีประสิทธิภาพ'
+        ],
+        ingredients: [
+          { name: 'Matrixyl 3000 (Palmitoyl Tripeptide Complex)', percentage: '4.0%' },
+          { name: 'Sodium Hyaluronate (Multi-Molecular Weight)', percentage: '2.5%' },
+          { name: 'Niacinamide (Vitamin B3)', percentage: '3.0%' },
+          { name: 'Ceramide Complex NP', percentage: '1.5%' },
+          { name: 'Alpha Arbutin (Skin Brightening)', percentage: '0.8%' },
+          { name: 'Centella Asiatica Extract', percentage: '1.2%' }
+        ],
+        tonalStyling: 'ขวดแก้วฝ้าพร้อมหัวปั๊มโรสโกลด์ ดีไซน์มินิมอลสะอาดตา สะท้อนความแม่นยำทางวิทยาศาสตร์และคุณภาพระดับพรีเมียม'
+      } : {
         name: 'Emergency Response Serum',
         description: 'A revolutionary peptide-powered serum that transforms skin texture while delivering intense hydration. This clinically-tested formula combines advanced biotechnology with natural extracts to rejuvenate and restore youthful radiance.',
         claims: [

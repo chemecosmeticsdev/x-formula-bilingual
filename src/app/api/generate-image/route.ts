@@ -55,30 +55,40 @@ VISUAL SPECIFICATIONS:
 - Sophisticated typography and minimalist design elements
 - Photo-realistic rendering with professional studio lighting
 
+COMPOSITION SETUP:
+- Main product container (bottle/jar) positioned prominently in center-left
+- Luxury retail packaging box positioned elegantly to the right of the product
+- Both items arranged in harmonious composition with professional spacing
+- Box should complement the product's design language and color scheme
+- Create visual balance between container and packaging box
+
 MATERIALS & DESIGN:
 - ${tonalStyling.includes('frosted') || tonalStyling.includes('glass') ? 'Frosted glass bottle' : 'Premium glass container'} with elegant proportions
 - ${tonalStyling.includes('gold') || tonalStyling.includes('metallic') ? 'Metallic gold/silver accents' : 'Refined metallic details'} on cap and label
 - Clean, modern label design with scientific yet approachable typography
-- Subtle texture effects and premium material finishes
+- Luxury retail box with matching design aesthetic, premium materials and sophisticated branding
+- Box should feature embossed details, premium cardstock, and coordinated color palette
+- Subtle texture effects and premium material finishes on both products
 - Professional lighting with soft reflections and dimensional shadows
 
 COMPOSITION & QUALITY:
-- Professional product photography composition
+- Professional product photography composition showcasing both container and retail box
 - Soft drop shadow for depth without distraction
 - High-resolution, commercial-grade image quality
 - Suitable for luxury brand marketing and e-commerce
 - Color palette that conveys scientific innovation and premium quality
+- Visual hierarchy that draws attention to both the product and its premium packaging
 
 BRAND POSITIONING:
-- Convey luxury, efficacy, and scientific sophistication
-- Department store or premium beauty retailer presentation
-- Medical-grade aesthetic combined with luxury appeal
+- Convey luxury, efficacy, and scientific sophistication through both container and box
+- Department store or premium beauty retailer presentation with complete packaging system
+- Medical-grade aesthetic combined with luxury retail appeal
 - Professional, trustworthy, and innovative brand positioning
 
-Create a stunning packaging mockup that would impress discerning customers and effectively communicate premium quality, scientific credibility, and luxury positioning.`;
+Create a stunning packaging mockup featuring both the product container and its luxury retail box that would impress discerning customers and effectively communicate premium quality, scientific credibility, and luxury positioning.`;
 
     // Concise prompt for Titan (max 512 characters)
-    const concisePrompt = `Premium ${productType || 'serum'} packaging mockup: "${productName}" with ${tonalStyling} styling. Professional product photography, luxury cosmetic bottle with elegant label, clean white background, studio lighting, ${tonalStyling.includes('gold') ? 'gold accents' : 'metallic details'}, high-end aesthetic, department store quality presentation.`;
+    const concisePrompt = `Premium ${productType || 'serum'} packaging mockup: "${productName}" with ${tonalStyling} styling. Professional product photography showing luxury cosmetic container with elegant label alongside matching premium retail packaging box. Clean white background, studio lighting, ${tonalStyling.includes('gold') ? 'gold accents' : 'metallic details'}, high-end aesthetic, department store presentation.`;
 
     // Check AWS Bedrock Lambda endpoint configuration
     const lambdaImageEndpoint = process.env.LAMBDA_BEDROCK_IMAGE_ENDPOINT;
