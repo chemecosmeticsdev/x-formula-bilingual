@@ -257,11 +257,11 @@ export default function ResultPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12">
+          <div className="grid grid-cols-2 gap-8 lg:gap-12 mb-12">
             {/* Left Column - Product Visual - Enhanced */}
             <div className="flex flex-col items-center justify-center">
               {/* Product Image Rectangle - AI generated mockup showcase */}
-              <div className="relative mb-6 w-full max-w-md">
+              <div className="relative mb-6 w-full">
                 <div className="w-full h-80 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl flex items-center justify-center shadow-xl relative overflow-hidden border border-gray-200">
                   {result.imageUrl && !imageError ? (
                     <img
@@ -291,10 +291,6 @@ export default function ResultPage() {
                     </div>
                   </div>
 
-                  {/* AI Badge */}
-                  <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
-                    AI Generated
-                  </div>
                 </div>
               </div>
               <div className="text-center">
