@@ -262,36 +262,37 @@ export default function ResultPage() {
       </header>
 
       {/* Result Content */}
-      <div className="container mx-auto px-6 py-8">
-        <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+      <div className="container mx-auto px-6 py-12">
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
           {/* Status Badge */}
-          <div className="text-center mb-8">
+          <div className="text-center py-8 bg-gray-50">
             <Badge className="bg-green-100 text-green-700 border-green-300 px-4 py-2 text-sm font-medium">
               ✓ {t('result.generatedConcept', { fallback: 'Generated Concept' })}
             </Badge>
           </div>
 
           {/* Product Name */}
-          <div className="text-center mb-12">
+          <div className="text-center px-8 py-12 bg-white">
             <h1 className="text-4xl font-bold text-gray-900 mb-6">
               {result.product.name}
             </h1>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
               {result.product.description}
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 lg:gap-12 mb-12">
-            {/* Left Column - Product Visual - Enhanced */}
-            <div className="flex flex-col items-center justify-center">
-              {/* Product Image Rectangle - AI generated mockup showcase */}
-              <div className="relative mb-6 w-full">
-                <div className="w-full h-80 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl flex items-center justify-center shadow-xl relative overflow-hidden border border-gray-200">
+          <div className="px-8 pb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+            {/* Left Column - Product Visual */}
+            <div className="flex flex-col items-center justify-center bg-gray-50 rounded-xl p-8">
+              {/* Product Image Container */}
+              <div className="relative w-full max-w-sm mx-auto">
+                <div className="w-full aspect-square bg-gradient-to-br from-white to-gray-100 rounded-2xl flex items-center justify-center shadow-lg relative overflow-hidden border-2 border-gray-200">
                   {result.imageUrl && !imageError ? (
                     <img
                       src={result.imageUrl}
                       alt={`${result.product.name} packaging mockup`}
-                      className="w-full h-full object-contain p-6 hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-contain p-4 hover:scale-105 transition-transform duration-300"
                       onLoad={() => {
                         console.log('Image loaded successfully:', result.imageUrl);
                         setImageLoaded(true);
@@ -303,44 +304,45 @@ export default function ResultPage() {
                     />
                   ) : null}
 
-                  {/* Fallback content - show logo initials when no image or image hasn't loaded yet */}
-                  <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl absolute inset-0 ${result.imageUrl && imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
-                    <div className="text-center p-8">
-                      <div className="text-6xl font-bold text-blue-600 mb-4">
+                  {/* Fallback content */}
+                  <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br from-white to-gray-100 rounded-xl absolute inset-0 ${result.imageUrl && imageLoaded && !imageError ? 'hidden' : 'flex'}`}>
+                    <div className="text-center p-6">
+                      <div className="text-5xl font-bold text-blue-600 mb-3">
                         {result.product.name.split(' ').map(word => word[0]).join('').substring(0, 2)}
                       </div>
-                      <div className="text-gray-500 text-sm">
+                      <div className="text-gray-500 text-xs uppercase tracking-wide">
                         {t('result.aiGeneratedMockup', { fallback: 'AI-Generated Mockup' })}
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
-              <div className="text-center">
-                <p className="text-gray-600 font-medium text-lg mb-2">
+
+              {/* Product Label */}
+              <div className="text-center mt-6">
+                <p className="text-gray-800 font-semibold text-base mb-1">
                   {result.product.name}
                 </p>
-                <p className="text-gray-400 text-sm">
+                <p className="text-gray-500 text-sm">
                   {t('result.aiGeneratedMockup', { fallback: 'AI-Generated Mockup' })}
                 </p>
               </div>
             </div>
 
             {/* Right Column - Details */}
-            <div className="space-y-8">
+            <div className="space-y-10">
               {/* Key Claims */}
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  {t('result.product.claims', { fallback: 'Key Benefits' })}
+                <h2 className="text-2xl font-bold text-gray-900 mb-8">
+                  {t('result.product.claims', { fallback: 'Key Claims' })}
                 </h2>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {result.product.claims.map((claim, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div key={index} className="flex items-start gap-4">
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                         <span className="text-white text-sm">✓</span>
                       </div>
-                      <span className="text-gray-700">{claim}</span>
+                      <span className="text-gray-700 leading-relaxed text-base">{claim}</span>
                     </div>
                   ))}
                 </div>
@@ -348,30 +350,37 @@ export default function ResultPage() {
 
               {/* Key Ingredients */}
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  {t('result.product.ingredients', { fallback: 'Ingredients' })}
+                <h2 className="text-2xl font-bold text-gray-900 mb-8">
+                  {t('result.product.ingredients', { fallback: 'Key Ingredients' })}
                 </h2>
-                <div className="space-y-3">
-                  {result.product.ingredients.map((ingredient, index) => (
-                    <div key={index} className="flex justify-between items-center py-3 border-b border-gray-200 last:border-b-0">
-                      <span className="font-medium text-gray-900">{ingredient.name}</span>
-                      <span className="font-bold text-gray-700">{ingredient.percentage}</span>
-                    </div>
-                  ))}
+                <div className="bg-gray-50 rounded-xl p-6">
+                  <div className="space-y-4">
+                    {result.product.ingredients.map((ingredient, index) => (
+                      <div key={index} className="flex justify-between items-center py-3 border-b border-gray-200 last:border-b-0">
+                        <div className="flex-1">
+                          <span className="font-semibold text-gray-900 text-base">{ingredient.name}</span>
+                        </div>
+                        <div className="text-right">
+                          <span className="font-bold text-gray-800 text-lg">{ingredient.percentage}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          </div>
 
           {/* Tonal Styling Section */}
-          <div className="mb-12">
-            <div className="flex items-start gap-4">
-              <div className="text-2xl">🎨</div>
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-2 text-lg">
-                  {t('result.product.tonalStyling', { fallback: 'Packaging Style' })}:
+          <div className="px-8 py-8 bg-gray-50 mx-8 rounded-xl mb-8">
+            <div className="flex items-start gap-6">
+              <div className="text-3xl">🎨</div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-gray-900 mb-4 text-xl">
+                  {t('result.product.tonalStyling', { fallback: 'Tonal Styling' })}:
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed text-base">
                   {result.product.tonalStyling}
                 </p>
               </div>
@@ -379,29 +388,31 @@ export default function ResultPage() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-base rounded-lg font-semibold min-w-[200px] shadow-md hover:shadow-lg transition-all duration-200">
-              {t('result.requestFullFormula', { fallback: 'Request Full Formula' })}
-            </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-base rounded-lg font-semibold min-w-[200px] shadow-md hover:shadow-lg transition-all duration-200">
-              {t('result.orderPrototype', { fallback: 'Order Prototype' })}
-            </Button>
-          </div>
-
-          <div className="text-center mb-12">
-            <Button variant="ghost" className="text-gray-600 hover:text-teal-600 flex items-center gap-2 px-6 py-2 rounded-lg transition-colors duration-200">
-              <span className="text-lg">♡</span>
-              <span>{t('result.addToWishlist', { fallback: 'Add to Wishlist' })}</span>
-            </Button>
-          </div>
-
-          {/* Generate Another */}
-          <div className="text-center pt-8 border-t border-gray-200">
-            <Link href={`/${locale}/generate`}>
-              <Button variant="outline" className="px-8 py-3 text-base border-2 border-gray-300 hover:border-teal-500 hover:text-teal-600 rounded-lg font-medium transition-all duration-200">
-                {t('result.actions.generateNew', { fallback: 'Generate New Formula' })}
+          <div className="px-8 py-8 bg-white">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-4 text-base rounded-lg font-semibold min-w-[240px] shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                {t('result.requestFullFormula', { fallback: 'Request Full Formula' })}
               </Button>
-            </Link>
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-4 text-base rounded-lg font-semibold min-w-[240px] shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                {t('result.orderPrototype', { fallback: 'Order Prototype' })}
+              </Button>
+            </div>
+
+            <div className="text-center mb-8">
+              <Button variant="ghost" className="text-gray-600 hover:text-teal-600 flex items-center gap-3 px-8 py-3 rounded-lg transition-colors duration-200 text-base">
+                <span className="text-xl">♡</span>
+                <span>{t('result.addToWishlist', { fallback: 'Add to Wishlist' })}</span>
+              </Button>
+            </div>
+
+            {/* Generate Another */}
+            <div className="text-center pt-8 border-t border-gray-200">
+              <Link href={`/${locale}/generate`}>
+                <Button variant="outline" className="px-10 py-3 text-base border-2 border-gray-300 hover:border-teal-500 hover:text-teal-600 rounded-lg font-medium transition-all duration-200 min-w-[200px]">
+                  {t('result.actions.generateNew', { fallback: 'Generate Another Formula' })}
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

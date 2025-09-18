@@ -1123,6 +1123,28 @@ input:focus, textarea:focus, select:focus {
   transform: translateY(-0.25rem);
 }
 
+.hover\\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+/* Aspect ratio utilities */
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+/* Tracking utilities */
+.tracking-wide {
+  letter-spacing: 0.05em;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
 /* Focus ring utilities */
 .focus\\:ring-2:focus {
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
